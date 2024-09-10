@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function MobileNavigation() {
   return (
-    <div className="md:hidden py-3 flex justify-between items-center border-b">
+    <div className="md:hidden py-3 flex justify-between items-center">
       <Sheet>
         <SheetTrigger>
           <MenuIcon />
@@ -30,9 +30,9 @@ export default function MobileNavigation() {
       <Link href={"/"} className="font-semibold text-xl flex items-center">
         Sh
         <FootprintsIcon />
-        se
+        es
       </Link>
-      <Link href={"/"}>
+      <Link href={"/login"}>
         <User2Icon />
       </Link>
     </div>

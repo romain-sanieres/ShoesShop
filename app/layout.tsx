@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
-import { Jura } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/Navigation/Navigation";
-
-const font = Jura({ subsets: ["latin"] });
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "simple_boilerplate",
-  description:
-    "simple_boilerplate is a modern web application built with Next.js, offering secure authentication and a smooth user experience. This project serves as a robust starting point for developing complex web applications with integrated authentication features.",
+  title: "Shoes Shop",
+  description: "",
 };
 
 export default function RootLayout({
@@ -22,12 +19,13 @@ export default function RootLayout({
       <body>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
           <Navigation />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

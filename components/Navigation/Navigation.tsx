@@ -1,14 +1,19 @@
+"use client";
 import React from "react";
 import MobileNavigation from "./Mobile";
 import DesktopNavigation from "./Desktop";
+import { usePathname } from "next/navigation";
 
-export const Navigation = async () => {
-  return (
-    <header>
-      <nav>
-        <MobileNavigation />
-        <DesktopNavigation />
-      </nav>
-    </header>
-  );
+export const Navigation = () => {
+  const path = usePathname();
+
+  if (path !== "/login")
+    return (
+      <header>
+        <nav className="sticky top-0 z-20">
+          <MobileNavigation />
+          <DesktopNavigation />
+        </nav>
+      </header>
+    );
 };

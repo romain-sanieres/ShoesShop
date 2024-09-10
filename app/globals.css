@@ -1,11 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  font-family: "Raleway", "Arial", sans-serif;
+  font-family: "Lato", "Arial", sans-serif;
+}
+
+h2 {
+  font-family: "Slabo 27px", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 @layer base {
@@ -67,7 +74,8 @@ body {
     @apply max-w-[100rem] mx-auto;
   }
 
-  nav div {
+  nav div,
+  main {
     @apply px-3;
   }
 }
