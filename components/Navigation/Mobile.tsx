@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Sheet,
   SheetContent,
@@ -11,6 +10,7 @@ import { FootprintsIcon, MenuIcon, User2Icon } from "lucide-react";
 import Link from "next/link";
 
 export default function MobileNavigation() {
+
   return (
     <div className="md:hidden py-3 flex justify-between items-center">
       <Sheet>

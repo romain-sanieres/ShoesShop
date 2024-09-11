@@ -2,24 +2,38 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { auth } from "./auth";
 
-// Define an array of protected routes
-const protectedRoutes = ["/dashboard"];
+// Define arrays of protected and restricted routes
+const protectedRoutes = ["/profile"];
+const restrictedWhenAuthenticated = ["/login"];
 
 export default async function middleware(request: NextRequest) {
   const session = await auth();
 
-  // Check if the current route is protected
+  const { pathname } = request.nextUrl;
+
+  // Check if the current route is protected (requires authentication)
   const isProtected = protectedRoutes.some((route) =>
-    request.nextUrl.pathname.startsWith(route)
+    pathname.startsWith(route)
   );
 
-  // If the route is protected and there's no active session, redirect to
+  // Check if the current route should be restricted when authenticated
+  const isRestricted = restrictedWhenAuthenticated.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  // Redirect to login if the route is protected and the user is not authenticated
   if (!session && isProtected) {
-    const abosoluteURL = new URL("/", request.nextUrl.origin);
-    return NextResponse.redirect(abosoluteURL.toString());
+    const loginUrl = new URL("/login", request.nextUrl.origin);
+    return NextResponse.redirect(loginUrl.toString());
   }
 
-  // If authentication passes or the route is not protected, continue to the next middleware
+  // Redirect to home or another page if the user is authenticated and tries to access restricted routes
+  if (session && isRestricted) {
+    const homeUrl = new URL("/", request.nextUrl.origin);
+    return NextResponse.redirect(homeUrl.toString());
+  }
+
+  // If authentication passes or no restrictions apply, continue to the next middleware
   return NextResponse.next();
 }
 

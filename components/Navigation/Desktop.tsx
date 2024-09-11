@@ -7,18 +7,23 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { FootprintsIcon, ShoppingBagIcon, User2Icon } from "lucide-react";
+import { FootprintsIcon } from "lucide-react";
 import Link from "next/link";
 import Search from "./Search";
-import Cart from "./Cart";
+import Cart from "./Cart/Cart";
+import User from "./User";
+
 export default function DesktopNavigation() {
   return (
     <div className="max-md:hidden py-5 grid grid-cols-3 items-center">
-      <h1 className="text-2xl place-self-start font-semibold flex items-center">
+      <Link
+        href={"/"}
+        className="text-3xl place-self-start font-semibold flex items-center"
+      >
         Sh
         <FootprintsIcon />
         es
-      </h1>
+      </Link>
       <div className="place-self-center">
         <NavigationMenu>
           <NavigationMenuList>
@@ -66,9 +71,7 @@ export default function DesktopNavigation() {
       </div>
       <div className="flex gap-x-6 justify-end place-self-center w-full">
         <Search />
-        <Link href={"/login"}>
-          <User2Icon size={20} className="hover:cursor-pointer" />
-        </Link>
+        <User />
         <Cart />
       </div>
     </div>

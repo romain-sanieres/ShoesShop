@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { RegisterFormType } from "@/types";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 const getUserByEmail = async (email: string) => {
   try {
@@ -30,11 +31,11 @@ export const logout = async () => {
 };
 
 export const loginWithCreds = async (formData: RegisterFormType) => {
-
   const existingUser = await getUserByEmail(formData.email as string);
 
   try {
-    await signIn("credentials", formData);
+    await signIn("credentials", { redirect: false, ...formData });
+    redirect("/profile");
   } catch (error: any) {
     if (error instanceof AuthError) {
       switch (error.type) {

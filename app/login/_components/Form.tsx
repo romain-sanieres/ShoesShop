@@ -17,6 +17,7 @@ export default function Form() {
 
   const submitForm: SubmitHandler<RegisterFormType> = async (data) => {
     const res = await loginWithCreds(data);
+    console.log(res);
   };
   return (
     <form onSubmit={handleSubmit(submitForm)} className="flex flex-col">
@@ -39,6 +40,7 @@ export default function Form() {
           <Input
             {...register("password", { required: true, minLength: 8 })}
             placeholder="Mot de passe"
+            type="password"
           />
           <span className="text-xs text-destructive">
             {errors.password && errors.password.message}

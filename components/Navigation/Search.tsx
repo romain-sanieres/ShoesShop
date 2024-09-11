@@ -4,10 +4,10 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SearchIcon } from "lucide-react";
+import { Input } from "../ui/input";
 export default function Search() {
   return (
     <Sheet>
@@ -16,10 +16,8 @@ export default function Search() {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Are you absolutely sure?</SheetTitle>
-          <SheetDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+          <SheetDescription className="mt-8">
+            <Input autoFocus placeholder="Search"/>
           </SheetDescription>
         </SheetHeader>
       </SheetContent>
