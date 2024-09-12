@@ -1,13 +1,11 @@
-import type { Metadata } from "next";
+"use client";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/Navigation/Navigation";
 import Footer from "@/components/Footer";
-
-export const metadata: Metadata = {
-  title: "Shoes Shop",
-  description: "",
-};
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -16,18 +14,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Navigation />
-          {children}
-          <Footer />
-        </ThemeProvider>
-      </body>
+      <QueryClientProvider client={queryClient}>
+        <body>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ProgressBar
+              height="2px"
+              color="#18181B"
+              options={{ showSpinner: false }}
+              shallowRouting
+            />
+            <Navigation />
+            {children}
+            <Footer />
+          </ThemeProvider>
+        </body>
+      </QueryClientProvider>
     </html>
   );
 }

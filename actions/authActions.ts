@@ -35,7 +35,7 @@ export const loginWithCreds = async (formData: RegisterFormType) => {
 
   try {
     await signIn("credentials", { redirect: false, ...formData });
-    redirect("/account/orders");
+    redirect("/");
   } catch (error: any) {
     if (error instanceof AuthError) {
       switch (error.type) {

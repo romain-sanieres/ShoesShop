@@ -8,3 +8,7 @@ export const RegisterFormSchema = z.object({
     message: "Password must be at least 8 characters.",
   }),
 });
+
+export const ProductFormSchema = z.object({
+  name: z.string().min(2),
+});

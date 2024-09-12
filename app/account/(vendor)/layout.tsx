@@ -27,7 +27,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
             </div>
           </div>
         </aside>
-        <div>
+        <div className="w-full">
           <BreadcrumbLayout />
           {children}
         </div>

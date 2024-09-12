@@ -25,7 +25,7 @@ export default function ClientLink() {
       {pages.map((item, index) => (
         <Link
           key={index}
-          href={item.link}
+          href={`/account/${item.link}`}
           className={`py-3 pl-2 capitalize rounded w-full duration-200 ${
             pathname.includes(item.link)
               ? "bg-neutral-50"

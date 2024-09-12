@@ -13,8 +13,16 @@ const pages = [
     name: "my company",
   },
   {
-    link: "stock",
-    name: "stock",
+    link: "stocks",
+    name: "stocks",
+  },
+  {
+    link: "settings",
+    name: "settings",
+  },
+    {
+    link: "products",
+    name: "products",
   },
 
 ];
@@ -26,7 +34,7 @@ export default function VendorLink() {
       {pages.map((item, index) => (
         <Link
           key={index}
-          href={item.link}
+          href={`/account/${item.link}`}
           className={`py-3 pl-2 capitalize rounded w-full duration-200 ${
             pathname.includes(item.link)
               ? "bg-neutral-50"

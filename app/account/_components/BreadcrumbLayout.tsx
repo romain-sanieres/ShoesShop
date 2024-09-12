@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,9 +8,12 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
+import React from "react";
+
 export default function BreadcrumbLayout() {
   const pathname = usePathname();
-  const lastSegment = pathname.split("/").filter(Boolean).pop();
+  const segments = pathname.split("/").filter(Boolean);
+  const lastSegment = segments.pop()?.replace(/_/g, " ");
 
   return (
     <Breadcrumb className="mb-10">
@@ -18,10 +21,21 @@ export default function BreadcrumbLayout() {
         <BreadcrumbItem>
           <BreadcrumbLink href="/">Home</BreadcrumbLink>
         </BreadcrumbItem>
-        <BreadcrumbSeparator />
-        <BreadcrumbItem>
-          <BreadcrumbLink href={lastSegment}>Account</BreadcrumbLink>
-        </BreadcrumbItem>
+        {segments.map((segment, index) => {
+          if (segment === "account") return null;
+          return (
+            <React.Fragment key={index}>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem key={index} className="capitalize">
+                <BreadcrumbLink
+                  href={`/${segments.slice(0, index + 1).join("/")}`}
+                >
+                  {segment.replace(/_/g, " ")}
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            </React.Fragment>
+          );
+        })}
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <BreadcrumbPage className="capitalize">{lastSegment}</BreadcrumbPage>

@@ -17,7 +17,6 @@ export default function Form() {
 
   const submitForm: SubmitHandler<RegisterFormType> = async (data) => {
     const res = await loginWithCreds(data);
-    console.log(res);
   };
   return (
     <form onSubmit={handleSubmit(submitForm)} className="flex flex-col">
