@@ -69,7 +69,7 @@ export default function DesktopNavigation() {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="flex gap-x-6 justify-end place-self-center w-full">
+      <div className="flex gap-x-2 justify-end place-self-center w-full">
         <Search />
         <User />
         <Cart />

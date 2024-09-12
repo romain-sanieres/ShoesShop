@@ -3,12 +3,11 @@ import type { NextRequest } from "next/server";
 import { auth } from "./auth";
 
 // Define arrays of protected and restricted routes
-const protectedRoutes = ["/profile"];
+const protectedRoutes = ["/account"];
 const restrictedWhenAuthenticated = ["/login"];
 
 export default async function middleware(request: NextRequest) {
   const session = await auth();
-
   const { pathname } = request.nextUrl;
 
   // Check if the current route is protected (requires authentication)

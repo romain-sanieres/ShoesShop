@@ -1,7 +1,7 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerFormSchema } from "@/schema";
+import { RegisterFormSchema } from "@/schema";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
@@ -11,15 +11,15 @@ import { useState } from "react";
 
 export const RegisterForm = () => {
   const [message, setMessage] = useState("");
-  const form = useForm<z.infer<typeof registerFormSchema>>({
-    resolver: zodResolver(registerFormSchema),
+  const form = useForm<z.infer<typeof RegisterFormSchema>>({
+    resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof registerFormSchema>> = async (
+  const onSubmit: SubmitHandler<z.infer<typeof RegisterFormSchema>> = async (
     data
   ) => {
     const res = await loginWithCreds(data);

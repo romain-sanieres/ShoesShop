@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 export default function Cart() {
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger className="p-2">
         <ShoppingBagIcon size={20} className="hover:cursor-pointer" />
       </SheetTrigger>
       <SheetContent>

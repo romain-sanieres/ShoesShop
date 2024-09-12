@@ -13,7 +13,7 @@ type SlideType = {
 export default function Slide({ name, price, description, note }: SlideType) {
   return (
     <CarouselItem className="md:basis-1/2 lg:basis-1/5  rounded-lg p-0 flex overflow-hidden">
-      <Link href={"/"} className="flex flex-col w-full justify-between gap-y-4">
+      <Link href={"/product/4654"} className="flex flex-col w-full justify-between gap-y-4">
         <div className="bg-black/5 dark:bg-white/95 rounded-lg h-96"></div>
         <div className="flex flex-col gap-y-2">
           <div className="flex flex-col">

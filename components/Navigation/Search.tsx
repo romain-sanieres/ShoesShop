@@ -11,7 +11,7 @@ import { Input } from "../ui/input";
 export default function Search() {
   return (
     <Sheet>
-      <SheetTrigger>
+      <SheetTrigger className="p-2">
         <SearchIcon size={20} className="hover:cursor-pointer" />
       </SheetTrigger>
       <SheetContent>

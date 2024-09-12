@@ -8,7 +8,10 @@ export default function Home() {
       <Hero />
       <Slider title="Explore Every Day" />
       <PromotionalVideo />
-      <Slider title="Picked for you" subtitle="Experience the ultimate comfort and style."/>
+      <Slider
+        title="Picked for you"
+        subtitle="Experience the ultimate comfort and style."
+      />
     </main>
   );
 }

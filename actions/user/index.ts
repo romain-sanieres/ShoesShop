@@ -2,6 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/db";
+import { revalidatePath } from "next/cache";
 
 export const getUser = async () => {
   const session = await auth();
@@ -11,6 +12,6 @@ export const getUser = async () => {
     where: { email: session.user.email },
     include: { accounts: true },
   });
-
+  revalidatePath("/");
   return user || null;
 };
