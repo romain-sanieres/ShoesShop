@@ -9,10 +9,6 @@ const pages = [
     name: "dashboard",
   },
   {
-    link: "company",
-    name: "my company",
-  },
-  {
     link: "stocks",
     name: "stocks",
   },
@@ -20,18 +16,27 @@ const pages = [
     link: "settings",
     name: "settings",
   },
-    {
+  {
     link: "products",
     name: "products",
   },
-
 ];
-export default function VendorLink() {
+export default function VendorLink(vendor: { vendor: number }) {
   const pathname = usePathname();
-
   return (
     <div className="flex flex-col gap-y-1">
-      {pages.map((item, index) => (
+      <Link
+        href={`/account/company`}
+        className={`py-3 pl-2 capitalize rounded w-full duration-200 ${
+          pathname.includes("company")
+            ? "bg-neutral-50"
+            : "hover:bg-neutral-100"
+        }`}
+      >
+        my company
+      </Link>
+
+      {vendor.vendor > 0 && pages.map((item, index) => (
         <Link
           key={index}
           href={`/account/${item.link}`}

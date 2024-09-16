@@ -14,7 +14,7 @@ export default function User() {
     user();
   }, []);
   return (
-    <Link href={session ? session.userType === "CLIENT" ? "/account/orders" : "/account/dashboard" : "/login"} className="p-2">
+    <Link href={session ? session.userType === "CLIENT" ? "/account/orders" : "/account/company" : "/login"} className="p-2">
       <User2Icon size={20} className="hover:cursor-pointer" />
     </Link>
   );

@@ -10,8 +10,9 @@ export const getUser = async () => {
 
   const user = await db.user.findUnique({
     where: { email: session.user.email },
-    include: { accounts: true },
+    include: { accounts: true, vendor_account : true },
   });
+  
   revalidatePath("/");
   return user || null;
 };

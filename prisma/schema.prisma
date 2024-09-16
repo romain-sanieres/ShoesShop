@@ -18,19 +18,59 @@ enum UserType {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  password      String?
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  role          UserRole? @default(USER)
-  userType      UserType  @default(CLIENT)
+  id             String          @id @default(cuid())
+  name           String?
+  email          String          @unique
+  password       String?
+  emailVerified  DateTime?
+  image          String?
+  accounts       Account[]
+  sessions       Session[]
+  role           UserRole?       @default(USER)
+  userType       UserType        @default(CLIENT)
+  vendor_account Vendor[]        @relation("UserVendors")
+  Authenticator  Authenticator[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
 
-  Authenticator Authenticator[]
+model Vendor {
+  id             Int       @id @default(autoincrement())
+  name           String    @unique
+  description    String
+  stripe_account String    @unique
+  products       Product[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  user           User?     @relation("UserVendors", fields: [userId], references: [id])
+  userId         String?
+}
 
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  collection  String?
+  tags        String?
+  inventory   Int
+  stock_limit Int
+  reviews     Review[]
+  is_on_sale  Boolean  @default(false)
+  sale_price  Float?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Vendor      Vendor?  @relation(fields: [vendorId], references: [id])
+  vendorId    Int?
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int
+  comment   String?
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

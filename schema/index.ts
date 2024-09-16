@@ -11,4 +11,10 @@ export const RegisterFormSchema = z.object({
 
 export const ProductFormSchema = z.object({
   name: z.string().min(2),
+  description: z.string().min(2),
+  price: z.string().min(2),
+  collection: z.string(),
+  tags: z.string().min(2),
+  inventory: z.string().min(2),
+  sku: z.string(),
 });

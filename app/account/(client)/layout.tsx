@@ -6,7 +6,7 @@ import { getUser } from "@/actions/user";
 
 export default async function Layout({ children }: { children: ReactNode }) {
   const user = await getUser();
-  if (user.userType === "CLIENT")
+  if (user && user.userType === "CLIENT")
     return (
       <main className="flex gap-x-5 min-h-[100dvh]">
         <aside className="flex flex-col gap-y-10 w-60">
