@@ -2,10 +2,10 @@ import React, { ReactNode } from "react";
 import { logout } from "@/actions/authActions";
 import BreadcrumbLayout from "../_components/BreadcrumbLayout";
 import ClientLink from "../_components/ClientLink";
-import { getUser } from "@/actions/user";
+import { getUserAction } from "@/app/zsa/user.action";
 
 export default async function Layout({ children }: { children: ReactNode }) {
-  const user = await getUser();
+  const [user] = await getUserAction();
   if (user && user.userType === "CLIENT")
     return (
       <main className="flex gap-x-5 min-h-[100dvh]">

@@ -1,5 +1,12 @@
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
-import { setupServerActionHooks } from "zsa-react-query";
+import {
+  createServerActionsKeyFactory,
+  setupServerActionHooks,
+} from "zsa-react-query";
+
+export const QueryKeyFactory = createServerActionsKeyFactory({
+  getUserAction: () => ["user"],
+});
 
 const {
   useServerActionQuery,
@@ -11,6 +18,7 @@ const {
     useMutation: useMutation,
     useInfiniteQuery: useInfiniteQuery,
   },
+  queryKeyFactory: QueryKeyFactory,
 });
 
 export {

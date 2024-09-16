@@ -1,7 +1,9 @@
 "use server";
 
-import { action, authedAction } from "@/lib/zsa";
+import { db } from "@/db";
+import { authedAction } from "@/lib/zsa";
 import { z } from "zod";
+import { getUserAction } from "./user.action";
 
 export const createCompanyAction = authedAction
   .input(
@@ -12,6 +14,16 @@ export const createCompanyAction = authedAction
     })
   )
   .handler(async ({ input }) => {
-    console.log(input);
-    return input;
+    const [user] = await getUserAction();
+    if (user) {
+      await db.vendor.create({
+        data: {
+          name: input.name,
+          description: input.description,
+          stripe_account: input.stripe,
+          userId: user.id,
+        },
+      });
+      return user;
+    }
   });

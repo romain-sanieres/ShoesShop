@@ -48,5 +48,4 @@ export const loginWithCreds = async (formData: RegisterFormType) => {
 
     throw error;
   }
-  revalidatePath("/");
 };
