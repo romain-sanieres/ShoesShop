@@ -12,3 +12,9 @@ export type ProductType = {
   inventory: number;
   sku?: string;
 };
+
+export type CompanyFormType = {
+  name: string;
+  stripe: string;
+  description: string;
+};

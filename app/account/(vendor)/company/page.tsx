@@ -1,15 +1,17 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getUser } from "@/actions/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { CompanyFormSchema } from "@/schema";
+import { CompanyFormType } from "@/types";
+import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
+import { createCompanyAction } from "@/app/zsa/company.action";
+import { Loader2Icon } from "lucide-react";
 
 export default function Company() {
   const { data, isError, isLoading } = useQuery({
@@ -17,19 +19,27 @@ export default function Company() {
     queryFn: () => getUser(),
   });
 
-  const queryClient = useQueryClient();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CompanyFormType>({ resolver: zodResolver(CompanyFormSchema) });
 
-  const mutation = useMutation({
-    mutationFn: async () => {
-      return null;
-    },
+  const { isPending, mutate } = useServerActionMutation(createCompanyAction, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      console.log("ok");
+    },
+    onError: (err) => {
+      alert(err.message);
     },
   });
 
   if (isLoading) return <></>;
   if (isError) return <></>;
+
+  const submitForm: SubmitHandler<CompanyFormType> = async (data) => {
+    mutate(data);
+  };
 
   return (
     <section>
@@ -37,30 +47,48 @@ export default function Company() {
       <p className="text-muted-foreground">
         You must first create a company to start selling your products.
       </p>
-      <div className="grid gap-4 mt-10">
+      <form onSubmit={handleSubmit(submitForm)} className="grid gap-4 mt-10">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="company-name">Company Name *</Label>
-            <Input id="company-name" placeholder="Enter company name" />
+            <Input
+              disabled={isPending}
+              id="company-name"
+              placeholder="Enter company name"
+              {...register("name", { required: true })}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="stripe">Stripe Account *</Label>
-            <Input id="stripe" placeholder="Enter your Stripe " />
+            <Input
+              disabled={isPending}
+              id="stripe"
+              placeholder="Enter your Stripe "
+              {...register("stripe", { required: true })}
+            />
           </div>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="description">Company Description *</Label>
           <Textarea
+            disabled={isPending}
             id="description"
             rows={4}
             placeholder="Describe your company's products or services"
+            {...register("description", { required: true })}
           />
         </div>
         <div className="grid grid-cols-1 gap-4">
-          <Button>Create New Company</Button>
+          <Button>
+            {isPending ? (
+              <Loader2Icon className="animate-spin" size={16} />
+            ) : (
+              "Create New Company"
+            )}
+          </Button>
         </div>
-      </div>
+      </form>
     </section>
   );
 }

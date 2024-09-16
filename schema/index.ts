@@ -18,3 +18,9 @@ export const ProductFormSchema = z.object({
   inventory: z.string().min(2),
   sku: z.string(),
 });
+
+export const CompanyFormSchema = z.object({
+  name: z.string().min(2),
+  stripe: z.string().min(2),
+  description: z.string().min(2),
+});

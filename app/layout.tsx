@@ -3,9 +3,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/Navigation/Navigation";
 import Footer from "@/components/Footer";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-const queryClient = new QueryClient();
+import ReactQueryProvider from "./provider";
 
 export default function RootLayout({
   children,
@@ -14,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <QueryClientProvider client={queryClient}>
+      <ReactQueryProvider>
         <body>
           <ThemeProvider
             attribute="class"
@@ -33,7 +32,7 @@ export default function RootLayout({
             <Footer />
           </ThemeProvider>
         </body>
-      </QueryClientProvider>
+      </ReactQueryProvider>
     </html>
   );
 }
