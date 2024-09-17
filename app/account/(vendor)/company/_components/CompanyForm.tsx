@@ -3,18 +3,25 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CompanyFormSchema } from "@/schema";
 import { CompanyFormType } from "@/types";
 import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
-import { createCompanyAction } from "@/app/zsa/company.action";
 import { Loader2Icon } from "lucide-react";
 import { getUserAction } from "@/app/zsa/user.action";
+import { createCompanyAction } from "@/app/zsa/company.action";
+import { useToast } from "@/components/hooks/use-toast";
 
 export default function CompanyForm() {
-  const { data, isError, isLoading } = useQuery({
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const {
+    data: user,
+    isError,
+    isLoading,
+  } = useQuery({
     queryKey: ["user"],
     queryFn: async () => {
       const user = await getUserAction();
@@ -29,11 +36,24 @@ export default function CompanyForm() {
   } = useForm<CompanyFormType>({ resolver: zodResolver(CompanyFormSchema) });
 
   const { isPending, mutate } = useServerActionMutation(createCompanyAction, {
-    onSuccess: () => {},
+    onSuccess: (data) => {
+      if (data.success) {
+        queryClient.invalidateQueries({ queryKey: ["user"] });
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: data.message,
+        });
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+    },
   });
 
-  if (isLoading) return <></>;
-  if (isError) return <></>;
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error loading user data</p>;
 
   const submitForm: SubmitHandler<CompanyFormType> = async (data) => {
     mutate(data);

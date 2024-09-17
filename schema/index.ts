@@ -9,18 +9,18 @@ export const RegisterFormSchema = z.object({
   }),
 });
 
-export const ProductFormSchema = z.object({
-  name: z.string().min(2),
-  description: z.string().min(2),
-  price: z.string().min(2),
-  collection: z.string(),
-  tags: z.string().min(2),
-  inventory: z.string().min(2),
-  sku: z.string(),
-});
-
 export const CompanyFormSchema = z.object({
   name: z.string().min(2),
   stripe: z.string().min(2),
   description: z.string().min(2),
+});
+
+export const ProductFormSchema = z.object({
+  name: z.string().min(2),
+  description: z.string().min(2),
+  price: z.string().min(1),
+  collection: z.string().optional(),
+  tags: z.string().optional(),
+  inventory: z.string().min(1),
+  sku: z.string(),
 });

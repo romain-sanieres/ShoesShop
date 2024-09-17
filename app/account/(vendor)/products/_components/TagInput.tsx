@@ -2,17 +2,30 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const TagInput = () => {
+const TagInput = ({
+  action,
+  resetList,
+}: {
+  action: any;
+  resetList: boolean;
+}) => {
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    if (resetList) {
+      setTags([]);
+    }
+  }, [resetList]);
 
   const handleKeyDown = (e: any) => {
     if (e.key === "Enter" && inputValue) {
       e.preventDefault();
       if (!tags.includes(inputValue)) {
         setTags([...tags, inputValue]);
+        action([...tags, inputValue]);
         setInputValue("");
       }
     }
@@ -20,6 +33,7 @@ const TagInput = () => {
 
   const removeTag = (tagToRemove: string) => {
     setTags(tags.filter((tag) => tag !== tagToRemove));
+    action(tags.filter((tag) => tag !== tagToRemove));
   };
 
   return (

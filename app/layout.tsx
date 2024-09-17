@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Navigation } from "@/components/Navigation/Navigation";
 import Footer from "@/components/Footer";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { Toaster } from "@/components/ui/toaster";
 import ReactQueryProvider from "./provider";
 
 export default function RootLayout({
@@ -29,6 +30,7 @@ export default function RootLayout({
             />
             <Navigation />
             {children}
+            <Toaster />
             <Footer />
           </ThemeProvider>
         </body>

@@ -6,6 +6,7 @@ import {
 
 export const QueryKeyFactory = createServerActionsKeyFactory({
   getUserAction: () => ["user"],
+  createCompanyAction: () => ["user"],
 });
 
 const {

@@ -1,26 +1,60 @@
 "use client";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ProductType } from "@/types";
-import { ProductFormSchema } from "@/schema";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import TagInput from "../_components/TagInput";
+import { ProductType } from "@/types";
+import { ProductFormSchema } from "@/schema";
+import { useState } from "react";
+import { useToast } from "@/components/hooks/use-toast";
+import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
+import { createProductAction } from "@/app/zsa/product.action";
 
 export default function AddProduct() {
+  const { toast } = useToast();
+  const [tagList, setTagList] = useState<string[]>();
+  const [resetTagList, setResetTagList] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<ProductType>({ resolver: zodResolver(ProductFormSchema) });
 
+  const { isPending, mutate } = useServerActionMutation(createProductAction, {
+    onSuccess: (data) => {},
+    onError: (error) => {
+      console.error("Mutation error:", error);
+    },
+  });
+
   const onSubmit: SubmitHandler<ProductType> = async (data) => {
-    console.log(data);
+    
+    const formattedData = { 
+        ...data, 
+        tags: tagList?.join(",") || "", 
+        price: data.price.toString(), 
+        inventory: data.inventory.toString(), 
+        limit: data.stock_limit.toString(), 
+        ski: data.sku || "", 
+        collection: data.collection || "", 
+    };
+    mutate(formattedData);
+
+    toast({
+      className: "bg-emerald-500/40",
+      title: "Succes",
+      description: data.name + " has been successfully added to your products",
+    });
+
+    reset();
+    setResetTagList(true);
   };
+
   return (
     <section>
       <p className="text-2xl font-semibold">New Product</p>
@@ -61,15 +95,26 @@ export default function AddProduct() {
                 {...register("collection", { required: true })}
               />
             </div>
-            <TagInput />
-            <div className="grid gap-2">
-              <Label htmlFor="inventory">Inventory *</Label>
-              <Input
-                id="inventory"
-                type="number"
-                placeholder="Enter quantity"
-                {...register("inventory", { required: true })}
-              />
+            <TagInput action={setTagList} resetList={resetTagList} />
+            <div className="flex gap-2">
+              <div className="w-full">
+                <Label htmlFor="inventory">Inventory *</Label>
+                <Input
+                  id="inventory"
+                  type="number"
+                  placeholder="Enter quantity"
+                  {...register("inventory", { required: true })}
+                />
+              </div>
+              <div className="w-full">
+                <Label htmlFor="stock_limit">Stock Limit *</Label>
+                <Input
+                  id="stock_limit"
+                  type="number"
+                  placeholder="Enter quantity"
+                  {...register("stock_limit", { required: true })}
+                />
+              </div>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="sku">SKU</Label>

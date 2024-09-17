@@ -16,8 +16,9 @@ export default function Company() {
   if (isLoading) return <></>;
   if (isError) return <></>;
 
-  if (data?.vendor_account) {
+  if (data?.vendor_account && data?.vendor_account?.length > 0) {
     return <CompanyStats user={data} />;
+  } else {
+    return <CompanyForm />;
   }
-  return <CompanyForm />;
 }
