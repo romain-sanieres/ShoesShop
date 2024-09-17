@@ -55,7 +55,7 @@ model Product {
   tags        String?
   inventory   Int
   stock_limit Int
-  sku         String?   @unique
+  sku         String   @unique
   reviews     Review[]
   is_on_sale  Boolean  @default(false)
   sale_price  Float?

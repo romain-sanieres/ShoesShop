@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useToast } from "@/components/hooks/use-toast";
 import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
 import { createProductAction } from "@/app/zsa/product.action";
+import { Loader2Icon } from "lucide-react";
 
 export default function AddProduct() {
   const { toast } = useToast();
@@ -26,31 +27,31 @@ export default function AddProduct() {
   } = useForm<ProductType>({ resolver: zodResolver(ProductFormSchema) });
 
   const { isPending, mutate } = useServerActionMutation(createProductAction, {
-    onSuccess: (data) => {},
+    onSuccess: (data) => {
+      console.log(data);
+    },
     onError: (error) => {
       console.error("Mutation error:", error);
     },
   });
 
   const onSubmit: SubmitHandler<ProductType> = async (data) => {
-    
-    const formattedData = { 
-        ...data, 
-        tags: tagList?.join(",") || "", 
-        price: data.price.toString(), 
-        inventory: data.inventory.toString(), 
-        limit: data.stock_limit.toString(), 
-        ski: data.sku || "", 
-        collection: data.collection || "", 
+    const formattedData = {
+      ...data,
+      tags: tagList?.join(",") || "",
+      price: data.price.toString(),
+      inventory: data.inventory.toString(),
+      limit: data.stock_limit.toString(),
+      sku: data.sku || "",
+      collection: data.collection || "",
     };
-    mutate(formattedData);
 
+    mutate(formattedData);
     toast({
       className: "bg-emerald-500/40",
       title: "Succes",
       description: data.name + " has been successfully added to your products",
     });
-
     reset();
     setResetTagList(true);
   };
@@ -83,6 +84,7 @@ export default function AddProduct() {
               <Input
                 id="price"
                 type="number"
+                step="0.01"
                 placeholder="Enter price"
                 {...register("price", { required: true })}
               />
@@ -130,7 +132,11 @@ export default function AddProduct() {
                   <Button variant="outline">Cancel</Button>
                 </Link>
                 <Button type="submit" className="w-full sm:w-auto">
-                  Create Product
+                  {isPending ? (
+                    <Loader2Icon className="animate-spin" size={16} />
+                  ) : (
+                    "Create Product"
+                  )}
                 </Button>
               </div>
             </div>

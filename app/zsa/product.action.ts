@@ -1,9 +1,11 @@
-import { companyAction } from "@/lib/zsa";
+"use server";
+
+import { authedAction, companyAction } from "@/lib/zsa";
 import { getCompanyAction } from "./company.action";
 import { db } from "@/db";
 import { z } from "zod";
 
-export const getCompanyProducts = companyAction.handler(async () => {
+export const getCompanyProducts = authedAction.handler(async () => {
   try {
     const [company] = await getCompanyAction();
     if (!company) {
@@ -28,7 +30,7 @@ export const createProductAction = companyAction
       tags: z.string(),
       inventory: z.string(),
       limit: z.string(),
-      ski: z.string(),
+      sku: z.string(),
     })
   )
   .handler(async ({ input }) => {
@@ -46,11 +48,13 @@ export const createProductAction = companyAction
           tags: input.tags,
           inventory: parseInt(input.inventory),
           stock_limit: parseInt(input.limit),
+          sku: input.sku,
           vendorId: company.id,
         },
       });
       return products || null;
     } catch (err) {
+      console.log(err);
       throw new Error("Error");
     }
   });

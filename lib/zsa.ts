@@ -26,7 +26,7 @@ const companyProcedure = createServerActionProcedure().handler(async () => {
       return user;
     }
   } catch (err) {
-    throw new Error("User not authenticated");
+    throw new Error("User not authenticated : " + err );
   }
 });
 
