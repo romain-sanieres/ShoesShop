@@ -30,25 +30,21 @@ export default function ProductList() {
           <TableCaption>A list of your products.</TableCaption>
           <TableHeader className="w-full">
             <TableRow className="h-fit">
-              <TableHead>Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead>Price $</TableHead>
+              <TableHead>Stock</TableHead>
+              <TableHead className="text-right">In sell</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">INV001</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-medium">INV001</TableCell>
-              <TableCell>Paid</TableCell>
-              <TableCell>Credit Card</TableCell>
-              <TableCell className="text-right">$250.00</TableCell>
-            </TableRow>
+            {data.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{item.name}</TableCell>
+                <TableCell>{item.price}</TableCell>
+                <TableCell>{item.inventory}</TableCell>
+                <TableCell className="text-right">{item.is_on_sale ? 'True' : 'False'}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </section>
