@@ -27,7 +27,7 @@ export default function ProductList() {
     return (
       <section className="mt-5">
         <Table className="w-full">
-          <TableCaption>A list of your products.</TableCaption>
+          <TableCaption>A list of your products</TableCaption>
           <TableHeader className="w-full">
             <TableRow className="h-fit">
               <TableHead>Name</TableHead>
@@ -41,7 +41,7 @@ export default function ProductList() {
               <TableRow key={index}>
                 <TableCell className="font-medium">{item.name}</TableCell>
                 <TableCell>{item.price}</TableCell>
-                <TableCell>{item.inventory}</TableCell>
+                <TableCell className={`${item.inventory === item.stock_limit && 'text-red-500'}`}>{item.inventory}</TableCell>
                 <TableCell className="text-right">{item.is_on_sale ? 'True' : 'False'}</TableCell>
               </TableRow>
             ))}
