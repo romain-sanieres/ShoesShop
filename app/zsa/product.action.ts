@@ -58,3 +58,27 @@ export const createProductAction = companyAction
       throw new Error("Error");
     }
   });
+
+export const changeSaleStatue = companyAction
+  .input(
+    z.object({
+      id: z.string(),
+      active: z.boolean(),
+    })
+  )
+  .handler(async ({ input }) => {
+    try {
+      const updateStatus = await db.product.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          is_on_sale: !input.active,
+        },
+      });
+      return updateStatus || null;
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error");
+    }
+  });

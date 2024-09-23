@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getCompanyProducts } from "@/app/zsa/product.action";
+import ActiveProduct from "./ActiveProduct";
 
 export default function ProductList() {
   const { data, isError, isLoading } = useQuery({
@@ -41,8 +42,16 @@ export default function ProductList() {
               <TableRow key={index}>
                 <TableCell className="font-medium">{item.name}</TableCell>
                 <TableCell>{item.price}</TableCell>
-                <TableCell className={`${item.inventory === item.stock_limit && 'text-red-500'}`}>{item.inventory}</TableCell>
-                <TableCell className="text-right">{item.is_on_sale ? 'True' : 'False'}</TableCell>
+                <TableCell
+                  className={`${
+                    item.inventory === item.stock_limit && "text-red-500"
+                  }`}
+                >
+                  {item.inventory}
+                </TableCell>
+                <TableCell className="text-right">
+                  <ActiveProduct id={item.id} active={item.is_on_sale}/>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
