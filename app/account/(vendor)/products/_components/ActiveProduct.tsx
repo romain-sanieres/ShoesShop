@@ -19,6 +19,7 @@ export default function ActiveProduct({
 
   return (
     <Switch
+      disabled={isPending}
       defaultChecked={active}
       onCheckedChange={() => mutate({ id, active })}
     />

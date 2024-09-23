@@ -34,7 +34,7 @@ export default function ProductList() {
               <TableHead>Name</TableHead>
               <TableHead>Price $</TableHead>
               <TableHead>Stock</TableHead>
-              <TableHead className="text-right">In sell</TableHead>
+              <TableHead className="text-right">On sell</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
