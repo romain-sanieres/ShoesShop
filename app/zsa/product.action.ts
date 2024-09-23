@@ -105,6 +105,7 @@ export const getProductAction = authedAction
 export const updateProductAction = companyAction
   .input(
     z.object({
+      id: z.string(),
       name: z.string(),
       description: z.string(),
       price: z.string(),
@@ -115,4 +116,25 @@ export const updateProductAction = companyAction
       sku: z.string(),
     })
   )
-  .handler(async ({ input }) => {});
+  .handler(async ({ input }) => {
+    try {
+      console.log(input);
+      const product = await db.product.update({
+        where: {
+          sku: input.sku,
+        },
+        data: {
+          name: input.name,
+          description: input.description,
+          price: parseFloat(input.price),
+          collection: input.collection,
+          tags: input.tags,
+          stock_limit: parseInt(input.limit),
+          sku: input.sku,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error");
+    }
+  });

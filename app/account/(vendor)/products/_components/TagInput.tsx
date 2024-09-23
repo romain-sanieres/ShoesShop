@@ -7,11 +7,13 @@ import { useEffect, useState } from "react";
 const TagInput = ({
   action,
   resetList,
+  defaultTags,
 }: {
   action: any;
   resetList: boolean;
+  defaultTags?: string[];
 }) => {
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<string[]>(defaultTags || []);
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const TagInput = ({
   }, [resetList]);
 
   const handleKeyDown = (e: any) => {
-    if (e.key === "Enter" && inputValue) {
+    if (e.key === "/" && inputValue) {
       e.preventDefault();
       if (!tags.includes(inputValue)) {
         setTags([...tags, inputValue]);
@@ -46,7 +48,7 @@ const TagInput = ({
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Add tag and press Enter"
+          placeholder="Add tag and press /"
         />
       </div>
       <div className="flex gap-x-4">

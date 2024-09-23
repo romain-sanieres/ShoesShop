@@ -10,6 +10,7 @@ export type CompanyFormType = {
 };
 
 export type ProductType = {
+  id?: string;
   name: string;
   description: string;
   price: string;
@@ -19,6 +20,3 @@ export type ProductType = {
   stock_limit: string;
   sku: string;
 };
-
-
-

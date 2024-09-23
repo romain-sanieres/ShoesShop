@@ -18,11 +18,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ProductType } from "@/types";
 import { ProductFormSchema } from "@/schema";
 import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
+import { useRouter } from "next/navigation";
 
 export default function EditProductComponent({ session }: { session: string }) {
   const [tagList, setTagList] = useState<string[]>();
   const [resetTagList, setResetTagList] = useState(false);
-
+  const router = useRouter();
   const { id } = useParams();
   const { data, isError, isLoading } = useQuery({
     queryKey: ["products"],
@@ -41,25 +42,25 @@ export default function EditProductComponent({ session }: { session: string }) {
 
   const { isPending, mutate } = useServerActionMutation(updateProductAction, {
     onSuccess: (data) => {
-      console.log(data);
+      router.replace("/account/products");
     },
     onError: (error) => {
       console.error("Mutation error:", error);
     },
   });
 
-  const onSubmit: SubmitHandler<ProductType> = async (data) => {
+  const onSubmit: SubmitHandler<ProductType> = async (formData) => {
     const formattedData = {
-      ...data,
+      ...formData,
+      id: (id as string) || "",
       tags: tagList?.join(",") || "",
-      price: data.price.toString(),
-      inventory: data.inventory.toString(),
-      limit: data.stock_limit.toString(),
-      sku: data.sku || "",
-      collection: data.collection || "",
+      price: formData.price.toString(),
+      inventory: formData.inventory.toString(),
+      limit: formData.stock_limit.toString(),
+      sku: formData.sku || "",
+      collection: formData.collection || "",
     };
-
-    reset();
+    mutate(formattedData);
   };
 
   if (isLoading) return <></>;
@@ -69,7 +70,7 @@ export default function EditProductComponent({ session }: { session: string }) {
     return (
       <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-2">
-          <Label htmlFor="name">Product Name *</Label>
+          <Label htmlFor="name">Product Name</Label>
           <Input
             id="name"
             placeholder="Enter product name"
@@ -78,7 +79,7 @@ export default function EditProductComponent({ session }: { session: string }) {
           />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="description">Description *</Label>
+          <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
             placeholder="Describe the product"
@@ -88,7 +89,7 @@ export default function EditProductComponent({ session }: { session: string }) {
           />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="price">Price *</Label>
+          <Label htmlFor="price">Price</Label>
           <Input
             id="price"
             type="number"
@@ -107,10 +108,24 @@ export default function EditProductComponent({ session }: { session: string }) {
             {...register("collection", { required: true })}
           />
         </div>
-        <TagInput action={setTagList} resetList={resetTagList} />
+        <TagInput
+          action={setTagList}
+          resetList={resetTagList}
+          defaultTags={data?.tags?.split(",")}
+        />
         <div className="flex gap-2">
+          <div className="w-full hidden">
+            <Label htmlFor="inventory">Inventory *</Label>
+            <Input
+              id="inventory"
+              type="number"
+              value={data.inventory}
+              placeholder="Enter quantity"
+              {...register("inventory", { required: true })}
+            />
+          </div>
           <div className="w-full">
-            <Label htmlFor="stock_limit">Stock Limit *</Label>
+            <Label htmlFor="stock_limit">Stock Limit</Label>
             <Input
               id="stock_limit"
               type="number"

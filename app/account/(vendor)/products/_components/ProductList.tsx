@@ -36,7 +36,7 @@ export default function ProductList() {
               <TableHead>Name</TableHead>
               <TableHead>Price $</TableHead>
               <TableHead>Stock</TableHead>
-              <TableHead className="text-right">Action</TableHead>
+              <TableHead className="text-right"></TableHead>
               <TableHead className="text-right">On sell</TableHead>
             </TableRow>
           </TableHeader>
@@ -61,8 +61,13 @@ export default function ProductList() {
                   >
                     {item.inventory}
                   </TableCell>
-                  <TableCell className="text-right">
-                    <Link href={`/account/products/edit_product/${item.id}`}><Button>Edit</Button></Link>
+                  <TableCell className="text-right space-x-4">
+                    <Link href={`/account/products/stocks/${item.id}`}>
+                      <Button variant={"outline"}>Stock</Button>
+                    </Link>
+                    <Link href={`/account/products/edit_product/${item.id}`}>
+                      <Button>Edit</Button>
+                    </Link>
                   </TableCell>
                   <TableCell className="text-right">
                     <ActiveProduct id={item.id} active={item.is_on_sale} />
