@@ -82,3 +82,37 @@ export const changeSaleStatue = companyAction
       throw new Error("Error");
     }
   });
+
+export const getProductAction = authedAction
+  .input(
+    z.object({
+      id: z.string(),
+    })
+  )
+  .handler(async ({ input }) => {
+    try {
+      const product = await db.product.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+      return product || null;
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+export const updateProductAction = companyAction
+  .input(
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      price: z.string(),
+      collection: z.string(),
+      tags: z.string(),
+      inventory: z.string(),
+      limit: z.string(),
+      sku: z.string(),
+    })
+  )
+  .handler(async ({ input }) => {});

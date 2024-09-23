@@ -1,0 +1,149 @@
+"use client";
+import {
+  getProductAction,
+  updateProductAction,
+} from "@/app/zsa/product.action";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import React, { useState } from "react";
+import TagInput from "../../_components/TagInput";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Loader2Icon } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ProductType } from "@/types";
+import { ProductFormSchema } from "@/schema";
+import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
+
+export default function EditProductComponent({ session }: { session: string }) {
+  const [tagList, setTagList] = useState<string[]>();
+  const [resetTagList, setResetTagList] = useState(false);
+
+  const { id } = useParams();
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const products = await getProductAction({ id: id as string });
+      return products[0];
+    },
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ProductType>({ resolver: zodResolver(ProductFormSchema) });
+
+  const { isPending, mutate } = useServerActionMutation(updateProductAction, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error);
+    },
+  });
+
+  const onSubmit: SubmitHandler<ProductType> = async (data) => {
+    const formattedData = {
+      ...data,
+      tags: tagList?.join(",") || "",
+      price: data.price.toString(),
+      inventory: data.inventory.toString(),
+      limit: data.stock_limit.toString(),
+      sku: data.sku || "",
+      collection: data.collection || "",
+    };
+
+    reset();
+  };
+
+  if (isLoading) return <></>;
+  if (isError) return <></>;
+
+  if (session === data?.vendorId) {
+    return (
+      <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>
+        <div className="grid gap-2">
+          <Label htmlFor="name">Product Name *</Label>
+          <Input
+            id="name"
+            placeholder="Enter product name"
+            defaultValue={data.name}
+            {...register("name", { required: true })}
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="description">Description *</Label>
+          <Textarea
+            id="description"
+            placeholder="Describe the product"
+            className="min-h-[100px]"
+            defaultValue={data.description}
+            {...register("description", { required: true })}
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="price">Price *</Label>
+          <Input
+            id="price"
+            type="number"
+            step="0.01"
+            defaultValue={data.price}
+            placeholder="Enter price"
+            {...register("price", { required: true })}
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="collection">Collection</Label>
+          <Input
+            id="collection"
+            defaultValue={data.collection || ""}
+            placeholder="Enter collection (Optional)"
+            {...register("collection", { required: true })}
+          />
+        </div>
+        <TagInput action={setTagList} resetList={resetTagList} />
+        <div className="flex gap-2">
+          <div className="w-full">
+            <Label htmlFor="stock_limit">Stock Limit *</Label>
+            <Input
+              id="stock_limit"
+              type="number"
+              defaultValue={data.stock_limit}
+              placeholder="Enter quantity"
+              {...register("stock_limit", { required: true })}
+            />
+          </div>
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="sku">SKU</Label>
+          <Input
+            id="sku"
+            defaultValue={data.sku}
+            placeholder="Enter SKU"
+            {...register("sku", { required: true })}
+          />
+        </div>
+        <div className="flex w-full justify-end">
+          <div className="flex justify-between w-fit mt-5 gap-x-2">
+            <Link href="/account/products">
+              <Button variant="outline">Cancel</Button>
+            </Link>
+            <Button type="submit" className="w-full sm:w-auto">
+              {isPending ? (
+                <Loader2Icon className="animate-spin" size={16} />
+              ) : (
+                "Update Product"
+              )}
+            </Button>
+          </div>
+        </div>
+      </form>
+    );
+  }
+}

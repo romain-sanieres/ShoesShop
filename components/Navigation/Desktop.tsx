@@ -18,7 +18,7 @@ export default function DesktopNavigation() {
     <div className="max-md:hidden py-5 grid grid-cols-3 items-center">
       <Link
         href={"/"}
-        className="text-3xl place-self-start font-semibold flex items-center"
+        className="text-3xl place-self-start font-semibold flex items-center px-1"
       >
         Sh
         <FootprintsIcon />
@@ -69,7 +69,7 @@ export default function DesktopNavigation() {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="flex gap-x-2 justify-end place-self-center w-full">
+      <div className="flex gap-x-2 justify-end place-self-center w-full px-0">
         <Search />
         <User />
         <Cart />

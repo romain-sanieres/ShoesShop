@@ -12,7 +12,7 @@ import React from "react";
 
 export default function BreadcrumbLayout() {
   const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
+  const segments = pathname.split("/").filter(Boolean).slice(0,3);
   const lastSegment = segments.pop()?.replace(/_/g, " ");
 
   return (

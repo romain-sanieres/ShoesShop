@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/table";
 import { getCompanyProducts } from "@/app/zsa/product.action";
 import ActiveProduct from "./ActiveProduct";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function ProductList() {
   const { data, isError, isLoading } = useQuery({
@@ -24,7 +26,7 @@ export default function ProductList() {
 
   if (isError) return <></>;
   if (isLoading) return <></>;
-  if (data)
+  if (Array.isArray(data))
     return (
       <section className="mt-5">
         <Table className="w-full">
@@ -34,26 +36,39 @@ export default function ProductList() {
               <TableHead>Name</TableHead>
               <TableHead>Price $</TableHead>
               <TableHead>Stock</TableHead>
+              <TableHead className="text-right">Action</TableHead>
               <TableHead className="text-right">On sell</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((item, index) => (
-              <TableRow key={index}>
-                <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell>{item.price}</TableCell>
-                <TableCell
-                  className={`${
-                    item.inventory === item.stock_limit && "text-red-500"
-                  }`}
-                >
-                  {item.inventory}
-                </TableCell>
-                <TableCell className="text-right">
-                  <ActiveProduct id={item.id} active={item.is_on_sale}/>
-                </TableCell>
-              </TableRow>
-            ))}
+            {data
+              ?.sort((a, b) => a.name.localeCompare(b.name))
+              .map((item, index) => (
+                <TableRow key={index}>
+                  <TableCell className="font-medium">
+                    <Link
+                      href={`/product/${item.id}`}
+                      className="hover:underline"
+                    >
+                      {item.name}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{item.price}</TableCell>
+                  <TableCell
+                    className={`${
+                      item.inventory === item.stock_limit && "text-red-500"
+                    }`}
+                  >
+                    {item.inventory}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Link href={`/account/products/edit_product/${item.id}`}><Button>Edit</Button></Link>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <ActiveProduct id={item.id} active={item.is_on_sale} />
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </section>
