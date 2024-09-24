@@ -17,6 +17,12 @@ export default function ProductId() {
     },
   });
 
+  const isRecent = (date: Date) => {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    return date > sevenDaysAgo;
+  };
+
   if (isError) return <></>;
   if (isLoading) return <></>;
   console.log(data?.vendorId);
@@ -35,7 +41,12 @@ export default function ProductId() {
           </div>
           <div className="w-full md:col-span-3 p-2 space-y-5 max-md:mt-10">
             <div>
-              <p className="text-4xl font-semibold">{data.name}</p>
+              <p className="text-4xl font-semibold">
+                {data.name}{" "}
+                {isRecent(new Date(data.createdAt)) ? (
+                  <span className="text-sm text-destructive">(new)</span>
+                ) : null}
+              </p>
               <p>{data.collection}</p>
               <p className="text-lg">${data.price}</p>
             </div>
@@ -46,14 +57,16 @@ export default function ProductId() {
               <Sizes reference={data.id} price={data.price} />
             </div>
             <div className="flex gap-2 flex-grow-0">
-              {data.tags ? data.tags?.split(",").map((item, index) => (
-                <p
-                  key={index}
-                  className="bg-muted py-2 px-3 rounded-full cursor-pointer hover:shadow-md duration-300 text-sm"
-                >
-                  {item}
-                </p>
-              )) : null}
+              {data.tags
+                ? data.tags?.split(",").map((item, index) => (
+                    <p
+                      key={index}
+                      className="bg-muted py-2 px-3 rounded-full cursor-pointer hover:shadow-md duration-300 text-sm"
+                    >
+                      {item}
+                    </p>
+                  ))
+                : null}
             </div>
             <div className="flex items-end">
               <p
