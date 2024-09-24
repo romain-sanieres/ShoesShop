@@ -15,7 +15,7 @@ import ActiveProduct from "./ActiveProduct";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-export default function ProductList() {
+export default function ProductList({ search }: { search: string }) {
   const { data, isError, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -42,6 +42,11 @@ export default function ProductList() {
           </TableHeader>
           <TableBody>
             {data
+              .filter((item) =>
+                item.name
+                  .toLocaleLowerCase()
+                  .includes(search.toLocaleLowerCase())
+              )
               ?.sort((a, b) => a.name.localeCompare(b.name))
               .map((item, index) => (
                 <TableRow key={index}>

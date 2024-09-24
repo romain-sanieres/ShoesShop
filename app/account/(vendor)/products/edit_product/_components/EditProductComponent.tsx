@@ -111,7 +111,7 @@ export default function EditProductComponent({ session }: { session: string }) {
         <TagInput
           action={setTagList}
           resetList={resetTagList}
-          defaultTags={data?.tags?.split(",")}
+          defaultTags={data.tags ? data.tags.split(",") : []}
         />
         <div className="flex gap-2">
           <div className="w-full hidden">

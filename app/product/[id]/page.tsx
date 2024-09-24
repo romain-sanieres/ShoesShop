@@ -46,14 +46,14 @@ export default function ProductId() {
               <Sizes reference={data.id} price={data.price} />
             </div>
             <div className="flex gap-2 flex-grow-0">
-              {data.tags?.split(",").map((item, index) => (
+              {data.tags ? data.tags?.split(",").map((item, index) => (
                 <p
                   key={index}
                   className="bg-muted py-2 px-3 rounded-full cursor-pointer hover:shadow-md duration-300 text-sm"
                 >
                   {item}
                 </p>
-              ))}
+              )) : null}
             </div>
             <div className="flex items-end">
               <p
