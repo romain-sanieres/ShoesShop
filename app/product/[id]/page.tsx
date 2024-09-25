@@ -24,8 +24,7 @@ export default function ProductId() {
   };
 
   if (isError) return <></>;
-  if (isLoading) return <></>;
-  console.log(data?.vendorId);
+  if (isLoading) return <main className="min-h-[100dvh]"></main>;
   return (
     <main className="min-h-[100dvh]">
       {data ? (
@@ -52,9 +51,9 @@ export default function ProductId() {
             </div>
             <p>(note)</p>
             <p className="text-muted-foreground">{data.description}</p>
-            <div className="space-y-2">
+            <div className="space-y-5">
               <p>Size</p>
-              <Sizes reference={data.id} price={data.price} />
+              <Sizes reference={data.id} price={data.price} name={data.name} />
             </div>
             <div className="flex gap-2 flex-grow-0">
               {data.tags

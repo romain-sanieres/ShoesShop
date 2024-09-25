@@ -20,6 +20,25 @@ export const getCompanyProducts = authedAction.handler(async () => {
   }
 });
 
+const createProductSizes = async (productId: string) => {
+  const sizes = Array.from({ length: 21 }, (_, i) => 30 + i);
+  const sizeData = sizes.map((size) => ({
+    size: size.toString(),
+    inventory: 0,
+    stockLimit: 0,
+    productId: productId,
+  }));
+
+  try {
+    await db.productSize.createMany({
+      data: sizeData,
+    });
+  } catch (err) {
+    console.error("Erreur lors de la création des tailles de produit :", err);
+    throw new Error("Erreur lors de la création des tailles");
+  }
+};
+
 export const createProductAction = companyAction
   .input(
     z.object({
@@ -28,8 +47,6 @@ export const createProductAction = companyAction
       price: z.string(),
       collection: z.string(),
       tags: z.string(),
-      inventory: z.string(),
-      limit: z.string(),
       sku: z.string(),
     })
   )
@@ -39,20 +56,20 @@ export const createProductAction = companyAction
       if (!company) {
         throw new Error("Company not found");
       }
-      const products = await db.product.create({
+      const product = await db.product.create({
         data: {
           name: input.name,
           description: input.description,
           price: parseFloat(input.price),
           collection: input.collection,
           tags: input.tags,
-          inventory: parseInt(input.inventory),
-          stock_limit: parseInt(input.limit),
           sku: input.sku,
+
           vendorId: company.id,
         },
       });
-      return products || null;
+      await createProductSizes(product.id);
+      return product || null;
     } catch (err) {
       console.log(err);
       throw new Error("Error");
@@ -95,6 +112,7 @@ export const getProductAction = authedAction
         where: {
           id: input.id,
         },
+        include: { sizes: true },
       });
       return product || null;
     } catch (err) {
@@ -111,8 +129,6 @@ export const updateProductAction = companyAction
       price: z.string(),
       collection: z.string(),
       tags: z.string(),
-      inventory: z.string(),
-      limit: z.string(),
       sku: z.string(),
     })
   )
@@ -129,7 +145,6 @@ export const updateProductAction = companyAction
           price: parseFloat(input.price),
           collection: input.collection,
           tags: input.tags,
-          stock_limit: parseInt(input.limit),
           sku: input.sku,
         },
       });
@@ -137,4 +152,33 @@ export const updateProductAction = companyAction
       console.error(err);
       throw new Error("Error");
     }
+  });
+
+export const updateStockAction = companyAction
+  .input(
+    z.object({
+      id: z.string(),
+      stockUpdates: z.array(z.object({
+        size: z.string(),
+        value: z.number(),
+      })),
+    })
+  )
+  .handler(async ({ input }) => {
+    const { id, stockUpdates } = input;
+    // Logique pour mettre à jour le stock dans la base de données
+    for (const update of stockUpdates) {
+      await db.productSize.update({
+        where: {
+          productId_size: {
+            productId: id,
+            size: update.size,
+          },
+        },
+        data: {
+          inventory: update.value,
+        },
+      });
+    }
+    return { success: true };
   });

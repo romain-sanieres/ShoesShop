@@ -35,7 +35,6 @@ export default function ProductList({ search }: { search: string }) {
             <TableRow className="h-fit">
               <TableHead>Name</TableHead>
               <TableHead>Price $</TableHead>
-              <TableHead>Stock</TableHead>
               <TableHead className="text-right"></TableHead>
               <TableHead className="text-right">On sell</TableHead>
             </TableRow>
@@ -59,13 +58,6 @@ export default function ProductList({ search }: { search: string }) {
                     </Link>
                   </TableCell>
                   <TableCell>{item.price}</TableCell>
-                  <TableCell
-                    className={`${
-                      item.inventory === item.stock_limit && "text-red-500"
-                    }`}
-                  >
-                    {item.inventory}
-                  </TableCell>
                   <TableCell className="text-right space-x-4">
                     <Link href={`/account/products/stocks/${item.id}`}>
                       <Button variant={"outline"}>Stock</Button>

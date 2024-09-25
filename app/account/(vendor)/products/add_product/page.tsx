@@ -40,8 +40,6 @@ export default function AddProduct() {
       ...data,
       tags: tagList?.join(",") || "",
       price: data.price.toString(),
-      inventory: data.inventory.toString(),
-      limit: data.stock_limit.toString(),
       sku: data.sku || "",
       collection: data.collection || "",
     };
@@ -98,26 +96,6 @@ export default function AddProduct() {
               />
             </div>
             <TagInput action={setTagList} resetList={resetTagList} />
-            <div className="flex gap-2">
-              <div className="w-full">
-                <Label htmlFor="inventory">Inventory *</Label>
-                <Input
-                  id="inventory"
-                  type="number"
-                  placeholder="Enter quantity"
-                  {...register("inventory", { required: true })}
-                />
-              </div>
-              <div className="w-full">
-                <Label htmlFor="stock_limit">Stock Limit *</Label>
-                <Input
-                  id="stock_limit"
-                  type="number"
-                  placeholder="Enter quantity"
-                  {...register("stock_limit", { required: true })}
-                />
-              </div>
-            </div>
             <div className="grid gap-2">
               <Label htmlFor="sku">SKU</Label>
               <Input

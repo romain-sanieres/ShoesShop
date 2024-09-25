@@ -21,7 +21,5 @@ export const ProductFormSchema = z.object({
   price: z.string().min(1),
   collection: z.string().optional(),
   tags: z.string().optional(),
-  inventory: z.string().min(1),
-  stock_limit: z.string().min(1),
   sku: z.string().min(1)
 });

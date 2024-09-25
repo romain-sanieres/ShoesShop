@@ -16,7 +16,17 @@ export type ProductType = {
   price: string;
   collection?: string;
   tags?: string;
-  inventory: string;
-  stock_limit: string;
+  size?: string[];
+
   sku: string;
+};
+
+export type StockType = {
+  id: string;
+  sizes: any;
+  inventory: number;
+  stockLimit: number;
+  productId: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

@@ -55,8 +55,6 @@ export default function EditProductComponent({ session }: { session: string }) {
       id: (id as string) || "",
       tags: tagList?.join(",") || "",
       price: formData.price.toString(),
-      inventory: formData.inventory.toString(),
-      limit: formData.stock_limit.toString(),
       sku: formData.sku || "",
       collection: formData.collection || "",
     };
@@ -113,28 +111,6 @@ export default function EditProductComponent({ session }: { session: string }) {
           resetList={resetTagList}
           defaultTags={data.tags ? data.tags.split(",") : []}
         />
-        <div className="flex gap-2">
-          <div className="w-full hidden">
-            <Label htmlFor="inventory">Inventory *</Label>
-            <Input
-              id="inventory"
-              type="number"
-              value={data.inventory}
-              placeholder="Enter quantity"
-              {...register("inventory", { required: true })}
-            />
-          </div>
-          <div className="w-full">
-            <Label htmlFor="stock_limit">Stock Limit</Label>
-            <Input
-              id="stock_limit"
-              type="number"
-              defaultValue={data.stock_limit}
-              placeholder="Enter quantity"
-              {...register("stock_limit", { required: true })}
-            />
-          </div>
-        </div>
         <div className="grid gap-2">
           <Label htmlFor="sku">SKU</Label>
           <Input

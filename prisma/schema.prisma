@@ -1,20 +1,10 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-enum UserRole {
-  ADMIN
-  USER
-}
-
-enum UserType {
-  CLIENT
-  VENDOR
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -24,45 +14,57 @@ model User {
   password       String?
   emailVerified  DateTime?
   image          String?
-  accounts       Account[]
-  sessions       Session[]
   role           UserRole?       @default(USER)
   userType       UserType        @default(CLIENT)
-  vendor_account Vendor[]        @relation("UserVendors")
-  Authenticator  Authenticator[]
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @updatedAt
+  accounts       Account[]
+  Authenticator  Authenticator[]
+  sessions       Session[]
+  vendor_account Vendor[]        @relation("UserVendors")
 }
 
 model Vendor {
   id             String    @id @default(cuid())
   name           String    @unique
-  description    String
-  stripe_account String    @unique
-  products       Product[]
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  user           User?     @relation("UserVendors", fields: [userId], references: [id])
+  description    String
+  stripe_account String    @unique
   userId         String?
+  products       Product[]
+  user           User?     @relation("UserVendors", fields: [userId], references: [id])
 }
 
 model Product {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
   description String
   price       Float
   collection  String?
   tags        String?
-  inventory   Int
-  stock_limit Int
-  sku         String   @unique
-  reviews     Review[]
-  is_on_sale  Boolean  @default(false)
+  is_on_sale  Boolean       @default(false)
   sale_price  Float?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Vendor      Vendor?  @relation(fields: [vendorId], references: [id])
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   vendorId    String?
+  sku         String        @unique
+  Vendor      Vendor?       @relation(fields: [vendorId], references: [id])
+  sizes       ProductSize[]
+  reviews     Review[]
+}
+
+model ProductSize {
+  id         String   @id @default(cuid())
+  size       String
+  inventory  Int
+  stockLimit Int
+  productId  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  product    Product  @relation(fields: [productId], references: [id])
+
+  @@unique([productId, size])
 }
 
 model Review {
@@ -70,13 +72,12 @@ model Review {
   rating    Int
   comment   String?
   productId String
-  product   Product  @relation(fields: [productId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id])
 }
 
 model Account {
-  id                String   @id @default(cuid())
   userId            String
   type              String
   provider          String
@@ -90,19 +91,20 @@ model Account {
   session_state     String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  id                String   @id @default(cuid())
   user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id           String   @id @default(cuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
@@ -114,7 +116,6 @@ model VerificationToken {
 }
 
 model Authenticator {
-  id                   String  @id @default(cuid())
   credentialID         String  @unique
   userId               String
   providerAccountId    String
@@ -123,7 +124,18 @@ model Authenticator {
   credentialDeviceType String
   credentialBackedUp   Boolean
   transports           String?
+  id                   String  @id @default(cuid())
   user                 User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, credentialID])
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum UserType {
+  CLIENT
+  VENDOR
 }
