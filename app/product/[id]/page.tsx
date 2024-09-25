@@ -2,6 +2,7 @@
 import AccordionInfo from "@/app/account/(vendor)/products/_components/AccordionInfo";
 import Sizes from "@/app/account/(vendor)/products/_components/Sizes";
 import { getProductAction } from "@/app/zsa/product.action";
+import { StockType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
@@ -53,7 +54,12 @@ export default function ProductId() {
             <p className="text-muted-foreground">{data.description}</p>
             <div className="space-y-5">
               <p>Size</p>
-              <Sizes reference={data.id} price={data.price} name={data.name} />
+              <Sizes
+                reference={data.id}
+                price={data.price}
+                name={data.name}
+                sizes={data.sizes as unknown as StockType[]}
+              />
             </div>
             <div className="flex gap-2 flex-grow-0">
               {data.tags

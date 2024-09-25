@@ -2,17 +2,18 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/hooks/use-toast";
-
-const sizes = [40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
+import { StockType } from "@/types";
 
 export default function Sizes({
   reference,
   price,
   name,
+  sizes,
 }: {
   reference: string;
   price: number;
   name: string;
+  sizes: StockType[];
 }) {
   const [size, setSize] = useState<number>();
   const [sizeError, setSizeError] = useState(false);
@@ -32,15 +33,20 @@ export default function Sizes({
     <>
       <div className="grid grid-cols-4 xl:grid-cols-5 place-content-center gap-2">
         {sizes.map((item, index) => (
-          <div
-            className={`shadow w-full rounded-lg p-2 flex items-center justify-center border-2 ${
-              size === item ? "border-primary" : " border-transparent"
-            } cursor-pointer`}
-            onClick={() => setSize(item)}
-            key={item}
+          <Button
+            variant={"secondary"}
+            disabled={item.inventory <= 5 ? true : false}
+            key={index}
+            className={`p-2 relative border text-center shadow rounded-lg  select-none cursor-pointer ${
+              Number(item.size) === size
+                ? "border-primary"
+                : "border-transparent"
+                && item.inventory <= 5 ? "line-through" : null
+            } `}
+            onClick={() => setSize(Number(item.size))}
           >
-            {item}
-          </div>
+            <p>{item.size}</p>
+          </Button>
         ))}
       </div>
       <p className="text-destructive text-xs h-5">

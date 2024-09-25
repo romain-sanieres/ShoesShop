@@ -23,10 +23,10 @@ export type ProductType = {
 
 export type StockType = {
   id: string;
-  sizes: any;
   inventory: number;
   stockLimit: number;
   productId: string;
   createdAt: Date;
   updatedAt: Date;
+  size: string[];
 };
