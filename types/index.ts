@@ -17,14 +17,14 @@ export type ProductType = {
   collection?: string;
   tags?: string;
   size?: string[];
-
+  gender: string;
+  limit?: number;
   sku: string;
 };
 
 export type StockType = {
   id: string;
   inventory: number;
-  stockLimit: number;
   productId: string;
   createdAt: Date;
   updatedAt: Date;

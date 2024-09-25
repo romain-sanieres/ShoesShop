@@ -10,7 +10,7 @@ import { useState } from "react";
 export default function StockComponent({ session }: { session: string }) {
   const [values, setValues] = useState<{ size: string; value: number }[]>([]);
   const { id } = useParams();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const { data, isError, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
@@ -22,7 +22,6 @@ export default function StockComponent({ session }: { session: string }) {
   const { mutate } = useServerActionMutation(updateStockAction, {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["products"] });
-
     },
     onError: (error) => {
       console.error("Mutation error:", error);
@@ -59,34 +58,36 @@ export default function StockComponent({ session }: { session: string }) {
                 Total stock :{" "}
                 {data.sizes.reduce((total, item) => total + item.inventory, 0)}
               </p>
-              <p className="text-xl">
-                Limite stock :{" "}
-                {data.sizes.reduce((total, item) => total + item.stockLimit, 0)}
-              </p>
+              <p className="text-xl">Limite stock : {data.limit}</p>
             </div>
           </div>
           <p className="text-muted-foreground">{data.description}</p>
         </div>
         <div className="grid grid-cols-8 gap-5">
-          {data.sizes.map((item) => (
-            <div key={item.size} className="border text-center rounded-lg p-2">
-              <p className="px-2 pb-2 font-semibold">{item.size}</p>
-              <Input
-                min={0}
-                defaultValue={item.inventory > 0 ? item.inventory : undefined}
-                placeholder={item.inventory === 0 ? "0" : undefined}
-                className={`text-center`}
-                type="number"
-                disabled={item.inventory <= 5 ? false : true}
-                onBlur={(e) =>
-                  changeStock({
-                    size: item.size,
-                    value: Number(e.target.value),
-                  })
-                }
-              />
-            </div>
-          ))}
+          {data.sizes
+            .sort((a, b) => Number(a.size) - Number(b.size))
+            .map((item) => (
+              <div
+                key={item.size}
+                className="border text-center rounded-lg p-2"
+              >
+                <p className="px-2 pb-2 font-semibold">{item.size}</p>
+                <Input
+                  min={0}
+                  defaultValue={item.inventory > 0 ? item.inventory : undefined}
+                  placeholder={item.inventory === 0 ? "0" : undefined}
+                  className={`text-center`}
+                  type="number"
+                  disabled={item.inventory <= 5 ? false : true}
+                  onBlur={(e) =>
+                    changeStock({
+                      size: item.size,
+                      value: Number(e.target.value),
+                    })
+                  }
+                />
+              </div>
+            ))}
         </div>
         <Button onClick={() => verify()}>Update stock</Button>
       </main>

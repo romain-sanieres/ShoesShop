@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label";
@@ -9,22 +10,36 @@ import Link from "next/link";
 import TagInput from "../_components/TagInput";
 import { ProductType } from "@/types";
 import { ProductFormSchema } from "@/schema";
-import { useState } from "react";
 import { useToast } from "@/components/hooks/use-toast";
 import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
 import { createProductAction } from "@/app/zsa/product.action";
 import { Loader2Icon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function AddProduct() {
   const { toast } = useToast();
   const [tagList, setTagList] = useState<string[]>();
   const [resetTagList, setResetTagList] = useState(false);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ProductType>({ resolver: zodResolver(ProductFormSchema) });
+    setError,
+    setValue,
+  } = useForm<ProductType>({
+    resolver: zodResolver(ProductFormSchema),
+    defaultValues: {
+      gender: "",
+    },
+  });
 
   const { isPending, mutate } = useServerActionMutation(createProductAction, {
     onSuccess: (data) => {
@@ -47,13 +62,13 @@ export default function AddProduct() {
     mutate(formattedData);
     toast({
       className: "bg-emerald-500/40",
-      title: "Succes",
+      title: "Success",
       description: data.name + " has been successfully added to your products",
     });
     reset();
     setResetTagList(true);
   };
-
+  console.log(errors);
   return (
     <section>
       <p className="text-2xl font-semibold">New Product</p>
@@ -67,6 +82,9 @@ export default function AddProduct() {
                 placeholder="Enter product name"
                 {...register("name", { required: true })}
               />
+              {errors.name && (
+                <p className="text-red-500 text-xs">{errors.name.message}</p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="description">Description *</Label>
@@ -76,6 +94,11 @@ export default function AddProduct() {
                 className="min-h-[100px]"
                 {...register("description", { required: true })}
               />
+              {errors.description && (
+                <p className="text-red-500 text-xs">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="price">Price *</Label>
@@ -86,13 +109,31 @@ export default function AddProduct() {
                 placeholder="Enter price"
                 {...register("price", { required: true })}
               />
+              {errors.price && (
+                <p className="text-red-500 text-xs">{errors.price.message}</p>
+              )}
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="gender">Gender *</Label>
+              <Select onValueChange={(value) => setValue("gender", value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="men">Men</SelectItem>
+                  <SelectItem value="women">Women</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.gender && (
+                <p className="text-red-500 text-xs">{errors.gender.message}</p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="collection">Collection</Label>
               <Input
                 id="collection"
                 placeholder="Enter collection (Optional)"
-                {...register("collection", { required: true })}
+                {...register("collection", { required: false })}
               />
             </div>
             <TagInput action={setTagList} resetList={resetTagList} />
@@ -103,6 +144,9 @@ export default function AddProduct() {
                 placeholder="Enter SKU"
                 {...register("sku", { required: true })}
               />
+              {errors.sku && (
+                <p className="text-red-500 text-xs">{errors.sku.message}</p>
+              )}
             </div>
             <div className="flex w-full justify-end">
               <div className="flex justify-between w-fit mt-5 gap-x-2">

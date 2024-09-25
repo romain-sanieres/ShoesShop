@@ -32,7 +32,7 @@ export default function Sizes({
   return (
     <>
       <div className="grid grid-cols-4 xl:grid-cols-5 place-content-center gap-2">
-        {sizes.map((item, index) => (
+        {sizes?.sort((a, b) => Number(a.size) - Number(b.size)).map((item, index) => (
           <Button
             variant={"secondary"}
             disabled={item.inventory <= 5 ? true : false}

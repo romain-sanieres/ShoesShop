@@ -21,11 +21,10 @@ export const getCompanyProducts = authedAction.handler(async () => {
 });
 
 const createProductSizes = async (productId: string) => {
-  const sizes = Array.from({ length: 21 }, (_, i) => 30 + i);
+  const sizes = Array.from({ length: 13 }, (_, i) => 38 + i);
   const sizeData = sizes.map((size) => ({
     size: size.toString(),
     inventory: 0,
-    stockLimit: 0,
     productId: productId,
   }));
 
@@ -45,6 +44,7 @@ export const createProductAction = companyAction
       name: z.string(),
       description: z.string(),
       price: z.string(),
+      gender: z.string(),
       collection: z.string(),
       tags: z.string(),
       sku: z.string(),
@@ -61,10 +61,10 @@ export const createProductAction = companyAction
           name: input.name,
           description: input.description,
           price: parseFloat(input.price),
+          gender: input.gender,
           collection: input.collection,
           tags: input.tags,
           sku: input.sku,
-
           vendorId: company.id,
         },
       });
@@ -158,10 +158,12 @@ export const updateStockAction = companyAction
   .input(
     z.object({
       id: z.string(),
-      stockUpdates: z.array(z.object({
-        size: z.string(),
-        value: z.number(),
-      })),
+      stockUpdates: z.array(
+        z.object({
+          size: z.string(),
+          value: z.number(),
+        })
+      ),
     })
   )
   .handler(async ({ input }) => {

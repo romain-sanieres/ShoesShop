@@ -43,8 +43,10 @@ model Product {
   price       Float
   collection  String?
   tags        String?
+  gender      String
   is_on_sale  Boolean       @default(false)
   sale_price  Float?
+  limit       Int           @default(5)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   vendorId    String?
@@ -58,7 +60,6 @@ model ProductSize {
   id         String   @id @default(cuid())
   size       String
   inventory  Int
-  stockLimit Int
   productId  String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
