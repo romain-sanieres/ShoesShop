@@ -58,7 +58,7 @@ export default function StockComponent({ session }: { session: string }) {
                 Total stock :{" "}
                 {data.sizes.reduce((total, item) => total + item.inventory, 0)}
               </p>
-              <p className="text-xl">Limite stock : {data.limit}</p>
+              <p className="text-xl">Stock Limit : {data.limit}</p>
             </div>
           </div>
           <p className="text-muted-foreground">{data.description}</p>
