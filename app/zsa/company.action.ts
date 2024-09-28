@@ -13,6 +13,7 @@ export const createCompanyAction = authedAction
       description: z.string(),
     })
   )
+
   .handler(async ({ input }) => {
     try {
       const [user] = await getUserAction();

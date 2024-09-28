@@ -2,19 +2,24 @@ import React from "react";
 import Link from "next/link";
 import { StarHalfIcon, StarIcon } from "lucide-react";
 import { CarouselItem } from "@/components/ui/carousel";
+import Image from "next/image";
 
 type SlideType = {
+  id : string;
   name: string;
   price: number;
+  image: number;
   description: string;
-  note: number;
 };
 
-export default function Slide({ name, price, description, note }: SlideType) {
+export default function Slide({ name, price, description, id, image }: SlideType) {
   return (
     <CarouselItem className="md:basis-1/2 lg:basis-1/5  rounded-lg p-0 flex overflow-hidden">
-      <Link href={"/product/4654"} className="flex flex-col w-full justify-between gap-y-4">
-        <div className="bg-black/5 dark:bg-white/95 rounded-lg h-96"></div>
+      <Link
+        href={`/product/${id}`}
+        className="flex flex-col w-full justify-between gap-y-4"
+      >
+        <Image src={`/images/slider/${image}.webp`} alt="" width={500} height={500} className="h-96 rounded-lg"/>
         <div className="flex flex-col gap-y-2">
           <div className="flex flex-col">
             <p className="h-fit font-semibold">{name}</p>
@@ -32,7 +37,7 @@ export default function Slide({ name, price, description, note }: SlideType) {
             <StarIcon className="fill-primary" size={15} />
             <StarHalfIcon className="fill-primary" size={15} />
           </div>
-          <p className="text-xs">{`(${note})`}</p>
+          <p className="text-xs">{``}</p>
         </div>
       </Link>
     </CarouselItem>

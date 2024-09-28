@@ -1,24 +1,17 @@
-"use client";
+
 import React from "react";
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
 import Slide from "./Slide";
+import { getLatestProducts } from "@/app/zsa/product.action";
 
 type SliderType = {
   title: string;
   subtitle?: string;
 };
 
-const data = [
-  {
-    name: "Model 001:Black & White",
-    price: 178,
-    description: "All-day comfort, supportive, durable 8 colors",
-    stars: 4.5,
-    note: 5625,
-  },
-];
 
-export default function Slider({ title, subtitle }: SliderType) {
+export default async function Slider({ title, subtitle }: SliderType) {
+  const data = await getLatestProducts();
   return (
     <section className="space-y-5">
       <div className="space-y-2">
@@ -31,15 +24,18 @@ export default function Slider({ title, subtitle }: SliderType) {
         }}
       >
         <CarouselContent className="gap-x-8 pl-5">
-          {data.map((item, index) => (
-            <Slide
-              key={index}
-              name={item.name}
-              price={item.price}
-              description={item.description}
-              note={item.note}
-            />
-          ))}
+          {data &&
+            data[0] &&
+            data[0].map((item, index) => (
+              <Slide
+                key={index}
+                id={item?.id}
+                name={item?.name}
+                price={item?.price}
+                description={item?.description}
+                image={index + 1}
+              />
+            ))}
         </CarouselContent>
       </Carousel>
     </section>

@@ -20,9 +20,9 @@ export default function DesktopNavigation() {
         href={"/"}
         className="text-3xl place-self-start font-semibold flex items-center px-1"
       >
-        Sh
+        Step 
         <FootprintsIcon />
-        es
+        p
       </Link>
       <div className="place-self-center">
         <NavigationMenu>

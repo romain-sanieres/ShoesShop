@@ -1,6 +1,6 @@
 "use server";
 
-import { authedAction, companyAction } from "@/lib/zsa";
+import { action, authedAction, companyAction } from "@/lib/zsa";
 import { getCompanyAction } from "./company.action";
 import { db } from "@/db";
 import { z } from "zod";
@@ -184,3 +184,19 @@ export const updateStockAction = companyAction
     }
     return { success: true };
   });
+
+
+export const getLatestProducts = action.handler(async () => {
+  try {
+    const products = await db.product.findMany({
+      take: 5,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return products || [];
+  } catch (err) {
+    console.error(err);
+    throw new Error("Error");
+  }
+});
