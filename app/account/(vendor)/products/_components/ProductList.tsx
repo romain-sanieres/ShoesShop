@@ -57,7 +57,7 @@ export default function ProductList({ search }: { search: string }) {
                       {item.name}
                     </Link>
                   </TableCell>
-                  <TableCell>{item.price}</TableCell>
+                  <TableCell>{item.price.toFixed(2)}</TableCell>
                   <TableCell className="text-right space-x-4">
                     <Link href={`/account/products/stocks/${item.id}`}>
                       <Button variant={"outline"}>Stock</Button>

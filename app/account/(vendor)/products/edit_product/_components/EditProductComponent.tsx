@@ -19,6 +19,14 @@ import { ProductType } from "@/types";
 import { ProductFormSchema } from "@/schema";
 import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 export default function EditProductComponent({ session }: { session: string }) {
   const [tagList, setTagList] = useState<string[]>();
@@ -37,7 +45,7 @@ export default function EditProductComponent({ session }: { session: string }) {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    setValue,
   } = useForm<ProductType>({ resolver: zodResolver(ProductFormSchema) });
 
   const { isPending, mutate } = useServerActionMutation(updateProductAction, {
@@ -63,7 +71,7 @@ export default function EditProductComponent({ session }: { session: string }) {
 
   if (isLoading) return <></>;
   if (isError) return <></>;
-
+  console.log(errors)
   if (session === data?.vendorId) {
     return (
       <form className="grid gap-6" onSubmit={handleSubmit(onSubmit)}>

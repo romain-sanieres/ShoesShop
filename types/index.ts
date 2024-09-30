@@ -17,7 +17,7 @@ export type ProductType = {
   collection?: string;
   tags?: string;
   size?: string[];
-  gender: string;
+  gender?: string;
   limit?: number;
   sku: string;
 };

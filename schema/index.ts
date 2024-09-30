@@ -20,7 +20,7 @@ export const ProductFormSchema = z.object({
   description: z.string().min(2),
   price: z.string().min(1),
   collection: z.string().optional(),
-  gender: z.enum(["men", "women"], { required_error: "Gender is required" }),
+  gender: z.enum(["men", "women", "all"]).optional(),
   tags: z.string().optional(),
   sku: z.string().min(1),
 });

@@ -57,6 +57,7 @@ export default function AddProduct() {
       price: data.price.toString(),
       sku: data.sku || "",
       collection: data.collection || "",
+      gender: data.gender || "",
     };
 
     mutate(formattedData);

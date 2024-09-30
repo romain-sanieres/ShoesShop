@@ -22,6 +22,17 @@ model User {
   Authenticator  Authenticator[]
   sessions       Session[]
   vendor_account Vendor[]        @relation("UserVendors")
+  cart           CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  size      String
+  User      User?   @relation(fields: [userId], references: [id])
+  userId    String?
 }
 
 model Vendor {
@@ -54,16 +65,17 @@ model Product {
   Vendor      Vendor?       @relation(fields: [vendorId], references: [id])
   sizes       ProductSize[]
   reviews     Review[]
+  CartItem    CartItem[]
 }
 
 model ProductSize {
-  id         String   @id @default(cuid())
-  size       String
-  inventory  Int
-  productId  String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  product    Product  @relation(fields: [productId], references: [id])
+  id        String   @id @default(cuid())
+  size      String
+  inventory Int
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@unique([productId, size])
 }

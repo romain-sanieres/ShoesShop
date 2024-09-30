@@ -48,64 +48,7 @@ export default function CompanyStats({ user }: { user: any }) {
       </p>
 
       <div className="grid grid-cols-3 gap-4 mt-10">
-        <Card>
-          <CardHeader>
-            <CardTitle>lskdjjfd</CardTitle>
-            <CardDescription>
-              Showing total visitors for the last 6 months
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="size-96">
-              <BarChart accessibilityLayer data={chartData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={(value) => value.slice(0, 3)}
-                />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>sdkfmjfs</CardTitle>
-            <CardDescription>
-              Showing total visitors for the last 6 months
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {" "}
-            <ChartContainer config={chartConfig} className="size-96">
-              <AreaChart accessibilityLayer data={chartData}>
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={(value) => value.slice(0, 3)}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dot" />}
-                />
-                <Area
-                  dataKey="desktop"
-                  type="natural"
-                  fill="var(--color-desktop)"
-                  fillOpacity={0.4}
-                  stroke="var(--color-desktop)"
-                  stackId="a"
-                />
-              </AreaChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+
       </div>
     </section>
   );

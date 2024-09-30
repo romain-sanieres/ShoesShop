@@ -15,7 +15,7 @@ export default function Shoes() {
       gsap.to(".box", {
         y: 40,
         yoyo: true,
-        repeat: -1, 
+        repeat: -1,
         duration: 3.5,
       });
     },
@@ -29,6 +29,7 @@ export default function Shoes() {
           width={500}
           height={500}
           alt="shoes"
+          priority
           className="-mt-5 md:-mt-10"
         />
       </div>

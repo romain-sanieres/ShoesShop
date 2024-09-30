@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
 import MobileNavigation from "./Mobile";
 import DesktopNavigation from "./Desktop";
 import { usePathname } from "next/navigation";
+
 
 export const Navigation = () => {
   const path = usePathname();

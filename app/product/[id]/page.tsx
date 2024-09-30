@@ -48,7 +48,7 @@ export default function ProductId() {
                 ) : null}
               </p>
               <p>{data.collection}</p>
-              <p className="text-lg">${data.price}</p>
+              <p className="text-lg">${data.price.toFixed(2)}</p>
             </div>
             <p>(note)</p>
             <p className="text-muted-foreground">{data.description}</p>
