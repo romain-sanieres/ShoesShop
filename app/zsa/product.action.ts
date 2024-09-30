@@ -200,3 +200,25 @@ export const getLatestProducts = action.handler(async () => {
     throw new Error("Error");
   }
 });
+
+export const getMenProducts = action.handler(async () => {
+  try {
+    const menProducts = await db.product.findMany({
+      where: {
+        gender: "men",
+        is_on_sale: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        collection: true,
+        createdAt: true,
+      },
+    });
+    return menProducts || [];
+  } catch (err) {
+    console.error(err);
+    throw new Error("Error");
+  }
+});

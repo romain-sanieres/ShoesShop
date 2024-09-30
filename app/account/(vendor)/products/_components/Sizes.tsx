@@ -85,7 +85,7 @@ export default function Sizes({
         onClick={() => addToCart(reference)}
       >
         <span>Add to cart</span>
-        <span>${price.toFixed(2)}</span>
+        <span>${price?.toFixed(2)}</span>
       </Button>
     </>
   );

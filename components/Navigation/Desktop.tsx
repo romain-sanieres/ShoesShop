@@ -25,49 +25,10 @@ export default function DesktopNavigation() {
         p
       </Link>
       <div className="place-self-center">
-        <NavigationMenu>
-          <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Men</NavigationMenuTrigger>
-              <NavigationMenuContent className="py-5 flex">
-                <div className="flex gap-x-4">
-                  <NavigationMenuLink href="/">
-                    <div className="w-40 h-60 bg-secondary hover:bg-secondary/80 duration-500 rounded-sm"></div>
-                  </NavigationMenuLink>
-                  <NavigationMenuLink href="/">
-                    <div className="w-40 h-60 bg-secondary hover:bg-secondary/80 duration-500 rounded-sm"></div>
-                  </NavigationMenuLink>
-                </div>
-                <div className="flex flex-col gap-y-3">
-                  <NavigationMenuLink className="hover:underline" href="/">
-                    Chaussures
-                  </NavigationMenuLink>
-                  <NavigationMenuLink className="hover:underline" href="/">
-                    Chaussettes
-                  </NavigationMenuLink>
-                  <NavigationMenuLink className="hover:underline" href="/">
-                    Lacets
-                  </NavigationMenuLink>
-                </div>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Women</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>Link</NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Collection</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <NavigationMenuLink>Link</NavigationMenuLink>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <Link href={"/"} className="px-4 mx-1 hover:underline">
-              Support
-            </Link>
-          </NavigationMenuList>
-        </NavigationMenu>
+        <Link href={"/men"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Men</Link>
+        <Link href={"/men"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Women</Link>
+        <Link href={"/men"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Collection</Link>
+        <Link href={"/men"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Support</Link>
       </div>
       <div className="flex gap-x-2 justify-end place-self-center w-full px-0">
         <Search />

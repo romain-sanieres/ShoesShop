@@ -1,7 +1,9 @@
+"use client"
 import { addQuantityAction, subtractQuantityAction } from "@/app/zsa/cart.action";
 import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { MinusIcon, PlusIcon } from "lucide-react";
+import Link from "next/link";
 
 type CartProductProps = {
   id: string;
@@ -40,7 +42,7 @@ export default function CartProduct({id, name, size, quantity, price }: CartProd
       <div className="flex flex-col gap-3">
         <div className="size-20 bg-muted rounded-lg"></div>
         <div className="select-none">
-          <p className="text-sm">{name}</p>
+          <Link href={`/product/${id}`} className="text-sm">{name}</Link>
           <p className="text-sm">
             <span className="text-muted-foreground">Size:</span> {size}
           </p>
@@ -50,13 +52,13 @@ export default function CartProduct({id, name, size, quantity, price }: CartProd
         <div className="flex items-center border py-2 px-4 rounded-full">
           <MinusIcon
             size={15}
-            className="cursor-pointer"
+            className="cursor-pointer rounded-full size-4"
             onClick={() => mutateSub({ productId: id, size: size })}
           />
           <p className="w-8 text-center text-sm select-none">{quantity}</p>
           <PlusIcon
             size={15}
-            className="cursor-pointer"
+            className="cursor-pointer  size-4"
             onClick={() => mutateAdd({ productId: id, size: size })}
           />
         </div>

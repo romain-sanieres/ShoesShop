@@ -19,14 +19,17 @@ export default function Cart() {
     queryKey: ["cart"],
     queryFn: async () => {
       const cartItems = await getCartAction();
-
-
       return cartItems[0]?.cart || [];
     },
   });
+  
   if (isError) return <></>;
-  if (isLoading) return <></>;
-
+  if (isLoading)
+    return (
+      <div className="p-2">
+        <ShoppingBagIcon size={20} className="hover:cursor-pointer" />
+      </div>
+    );
 
   return (
     <Sheet>
@@ -44,19 +47,23 @@ export default function Cart() {
           <SheetDescription></SheetDescription>
         </SheetHeader>
         <div className="h-full mt-10">
-          {data
-            ?.sort((a, b) => a.product.name.localeCompare(b.product.name))
-            .sort((a, b) => a.size.localeCompare(b.size))
-            .map((item, index) => (
-              <CartProduct
-                key={index}
-                id={item.product.id}
-                name={item.product.name}
-                size={item.size}
-                quantity={item.quantity}
-                price={item.product.price}
-              />
-            ))}
+          {data && data?.length > 0 ? (
+            data
+              ?.sort((a, b) => a.product.name.localeCompare(b.product.name))
+              .sort((a, b) => a.size.localeCompare(b.size))
+              .map((item, index) => (
+                <CartProduct
+                  key={index}
+                  id={item.product.id}
+                  name={item.product.name}
+                  size={item.size}
+                  quantity={item.quantity}
+                  price={item.product.price}
+                />
+              ))
+          ) : (
+            <p className="text-muted-foreground">Your cart is empty</p>
+          )}
         </div>
       </SheetContent>
     </Sheet>
