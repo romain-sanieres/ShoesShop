@@ -98,13 +98,16 @@ export const createCartAction = authedAction
     }
   });
 
-export const addQuantityAction = authedAction
+  export const addQuantityAction = authedAction
   .input(
     z.object({
       productId: z.string(),
+      size: z.string(),
     })
   )
   .handler(async ({ input }) => {
+
+    console.log(input.size)
     try {
       const [user] = await getUserAction();
       if (!user) {
@@ -115,6 +118,7 @@ export const addQuantityAction = authedAction
         where: {
           userId: user.id,
           productId: input.productId,
+          size: input.size,
         },
       });
 
@@ -122,12 +126,43 @@ export const addQuantityAction = authedAction
         throw new Error("Cart item not found");
       }
 
+      const product = await db.product.findFirst({
+        where: {
+          id: input.productId,
+        },
+        include: {
+          sizes: {
+            where: {
+              size: input.size,
+            },
+          },
+        },
+      });
+
+      if (!product) {
+        throw new Error("Product not found");
+      }
+
+      const sizeInfo = product.sizes[0];
+      if (!sizeInfo) {
+        throw new Error("Size not found for this product");
+      }
+
+      const sizeInventory = sizeInfo.inventory;
+      const currentQuantity = existingCart.quantity;
+      const vendorLimit = product.limit || 0;
+
+      if (sizeInventory <= vendorLimit || currentQuantity >= sizeInventory - vendorLimit) {
+        throw new Error(`Cannot add more items. Stock limit reached for size ${input.size}.`);
+      }
+
       const updatedCart = await db.cartItem.update({
         where: {
           id: existingCart.id,
+          size: input.size, 
         },
         data: {
-          quantity: existingCart.quantity + 1,
+          quantity: currentQuantity + 1,
         },
       });
 
@@ -136,63 +171,76 @@ export const addQuantityAction = authedAction
         cart: updatedCart,
         message: "Cart updated successfully",
       };
-    } catch (error) {}
-  });
-
-export const subtractQuantityAction = authedAction.input(
-  z.object({
-    productId: z.string(),
-  })
-).handler(async ({ input }) => {
-  try {
-    const [user] = await getUserAction();
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    const existingCart = await db.cartItem.findFirst({
-      where: {
-        userId: user.id,
-        productId: input.productId,
-      },
-    });
-
-    if (!existingCart) {
-      throw new Error("Cart item not found");
-    }
-
-    if (existingCart.quantity === 1) {
-      await db.cartItem.delete({
-        where: {
-          id: existingCart.id,
-        },
-      });
-
+    } catch (error) {
       return {
-        success: true,
-        message: "Cart item deleted successfully",
+        success: false,
+        message: error instanceof Error ? error.message : "An unknown error occurred",
       };
     }
+  });
 
-    const updatedCart = await db.cartItem.update({
-      where: {
-        id: existingCart.id,
-      },
-      data: {
-        quantity: existingCart.quantity - 1,
-      },
+  export const subtractQuantityAction = authedAction
+    .input(
+      z.object({
+        productId: z.string(),
+        size: z.string(),
+      })
+    )
+    .handler(async ({ input }) => {
+      try {
+        const [user] = await getUserAction();
+        if (!user) {
+          throw new Error("User not found");
+        }
+
+        const existingCart = await db.cartItem.findFirst({
+          where: {
+            userId: user.id,
+            productId: input.productId,
+            size: input.size,
+          },
+        });
+
+        if (!existingCart) {
+          throw new Error("Cart item not found");
+        }
+
+        if (existingCart.quantity === 1) {
+          await db.cartItem.delete({
+            where: {
+              id: existingCart.id,
+              size: input.size,
+            },
+          });
+
+          return {
+            success: true,
+            message: "Cart item deleted successfully",
+          };
+        }
+
+        const updatedCart = await db.cartItem.update({
+          where: {
+            id: existingCart.id,
+            size: input.size,
+          },
+          data: {
+            quantity: existingCart.quantity - 1,
+          },
+        });
+
+        return {
+          success: true,
+          cart: updatedCart,
+          message: "Cart updated successfully",
+        };
+      } catch (error) {
+        return {
+          success: false,
+          message:
+            error instanceof Error
+              ? error.message
+              : "An unknown error occurred",
+        };
+      }
     });
-
-    return {
-      success: true,
-      cart: updatedCart,
-      message: "Cart updated successfully",
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error:
-        error instanceof Error ? error.message : "An unknown error occurred",
-    };
-  }
-});

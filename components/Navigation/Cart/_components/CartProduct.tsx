@@ -48,9 +48,17 @@ export default function CartProduct({id, name, size, quantity, price }: CartProd
       </div>
       <div className="flex flex-col items-end gap-2">
         <div className="flex items-center border py-2 px-4 rounded-full">
-          <MinusIcon size={15} className="cursor-pointer"  onClick={() => mutateSub({productId : id})}/>
+          <MinusIcon
+            size={15}
+            className="cursor-pointer"
+            onClick={() => mutateSub({ productId: id, size: size })}
+          />
           <p className="w-8 text-center text-sm select-none">{quantity}</p>
-          <PlusIcon size={15} className="cursor-pointer"  onClick={() => mutateAdd({productId : id})}/>
+          <PlusIcon
+            size={15}
+            className="cursor-pointer"
+            onClick={() => mutateAdd({ productId: id, size: size })}
+          />
         </div>
         <p className="text-sm">${(price * quantity).toFixed(2)}</p>
       </div>

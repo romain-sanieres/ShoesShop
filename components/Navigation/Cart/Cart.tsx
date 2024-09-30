@@ -19,7 +19,9 @@ export default function Cart() {
     queryKey: ["cart"],
     queryFn: async () => {
       const cartItems = await getCartAction();
-      return cartItems[0]?.cart;
+
+
+      return cartItems[0]?.cart || [];
     },
   });
   if (isError) return <></>;
@@ -44,6 +46,7 @@ export default function Cart() {
         <div className="h-full mt-10">
           {data
             ?.sort((a, b) => a.product.name.localeCompare(b.product.name))
+            .sort((a, b) => a.size.localeCompare(b.size))
             .map((item, index) => (
               <CartProduct
                 key={index}
