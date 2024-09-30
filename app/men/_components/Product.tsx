@@ -6,14 +6,45 @@ type ProductProps = {
   name: string;
   price: number;
   collection: string;
+  date : Date;
 };
 
-export default function Product({ id, name, price, collection }: ProductProps) {
+export default function Product({
+  id,
+  name,
+  price,
+  collection,
+  date,
+}: ProductProps) {
+  const isRecent = (date: Date) => {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    return date > sevenDaysAgo;
+  };
   return (
-    <Link href={`/product/${id}`} className="bg-red-500 h-96">
-      <p>{price?.toFixed(2)}</p>
-      <p>{collection}</p>
-      {name}
+    <Link
+      href={`/product/${id}`}
+      className="rounded-xl shadow hover:shadow-md duration-200 h-96 flex flex-col justify-between overflow-hidden"
+    >
+      <div className="h-full bg-muted">
+        {isRecent(new Date(date)) ? (
+          <span className="text-sm text-destructive flex justify-end p-2">(new)</span>
+        ) : null}
+      </div>
+      <div className="flex justify-between px-2 py-4">
+        <div>
+          <p className="text-lg font-semibold">{name}</p>
+          <p className="text-muted-foreground">${price?.toFixed(2)}</p>
+        </div>
+        <div className="self-end">
+          <Link
+            href={"/"}
+            className="text-muted-foreground text-sm hover:underline"
+          >
+            {collection}
+          </Link>
+        </div>
+      </div>
     </Link>
   );
 }

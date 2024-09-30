@@ -19,9 +19,9 @@ export default function Hero() {
               Shop Women
             </Button>
           </Link>
-          <Link href={"/"}>
+          <Link href={"/men"}>
             <Button size={"lg"} className="w-44">
-              Shop Man
+              Shop Men
             </Button>
           </Link>
         </div>

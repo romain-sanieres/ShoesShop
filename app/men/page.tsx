@@ -36,6 +36,7 @@ export default function Men() {
               name={item.name}
               price={item.price}
               collection={item.collection || ""}
+              date={item.createdAt}
             />
           ))}
     </main>

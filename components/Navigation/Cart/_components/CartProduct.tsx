@@ -38,11 +38,11 @@ export default function CartProduct({id, name, size, quantity, price }: CartProd
 
 
   return (
-    <div className="flex items-end justify-between gap-x-4 select-none">
-      <div className="flex flex-col gap-3">
+    <div className="flex items-end justify-between gap-x-4 select-none shadow-md p-5 rounded-lg">
+      <div className="flex items-center gap-2">
         <div className="size-20 bg-muted rounded-lg"></div>
         <div className="select-none">
-          <Link href={`/product/${id}`} className="text-sm">{name}</Link>
+          <Link href={`/product/${id}`} className="text-md font-semibold">{name}</Link>
           <p className="text-sm">
             <span className="text-muted-foreground">Size:</span> {size}
           </p>
