@@ -4,8 +4,11 @@ import Sizes from "@/app/account/(vendor)/products/_components/Sizes";
 import { getProductAction } from "@/app/zsa/product.action";
 import { StockType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
+import { StarHalfIcon, StarIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
+import Commentaries from "../_components/Commentaries";
+import Link from "next/link";
 
 export default function ProductId() {
   const [description, setDescription] = useState(false);
@@ -29,77 +32,87 @@ export default function ProductId() {
   return (
     <main className="min-h-[100dvh]">
       {data ? (
-        <section className="max-lg:flex flex-col lg:grid lg:grid-cols-12 gap-x-8">
-          <div className="w-full md:col-span-9">
-            <div className="md:grid md:grid-cols-2 gap-3 flex flex-col">
-              <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
-              <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
-              <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
-              <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
-              <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
+        <>
+          <section className="max-lg:flex flex-col lg:grid lg:grid-cols-12 gap-x-8">
+            <div className="w-full md:col-span-9">
+              <div className="md:grid md:grid-cols-2 gap-3 flex flex-col">
+                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
+                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
+                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
+                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
+                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
+              </div>
             </div>
-          </div>
-          <div className="w-full md:col-span-3 p-2 space-y-5 max-md:mt-10">
-            <div>
-              <p className="text-4xl font-semibold">
-                {data.name}{" "}
-                {isRecent(new Date(data.createdAt)) ? (
-                  <span className="text-sm text-destructive">(new)</span>
-                ) : null}
-              </p>
-              <p>{data.collection}</p>
-              <p className="text-lg">${data.price?.toFixed(2)}</p>
-            </div>
-            <p>(note)</p>
-            <p className="text-muted-foreground">{data.description}</p>
-            <div className="space-y-5">
-              <p>Size</p>
-              <Sizes
-                reference={data.id}
-                price={data.price}
-                name={data.name}
-                sizes={data.sizes as unknown as StockType[]}
-              />
-            </div>
-            <div className="flex gap-2 flex-grow-0">
-              {data.tags
-                ? data.tags?.split(",").map((item, index) => (
-                    <p
-                      key={index}
-                      className="bg-muted py-2 px-3 rounded-full cursor-pointer hover:shadow-md duration-300 text-sm"
-                    >
-                      {item}
-                    </p>
-                  ))
-                : null}
-            </div>
-            <div className="flex items-end">
-              <p
-                className={`text-muted-foreground ${
-                  description ? null : "line-clamp-3"
-                }`}
-              >
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est
-                pariatur similique deserunt culpa ad veniam! Vero recusandae
-                sint magnam aliquid officia voluptatum, reiciendis rerum fugiat
-                quis sapiente distinctio harum atque dolores architecto
-                excepturi cumque laboriosam numquam corrupti animi quos eveniet?
-              </p>
-              {description ? null : (
+            <div className="w-full md:col-span-3 p-2 space-y-5 max-md:mt-10">
+              <div>
+                <h2 className="text-4xl font-semibold">
+                  {data.name}{" "}
+                  {isRecent(new Date(data.createdAt)) ? (
+                    <span className="text-sm text-destructive">(new)</span>
+                  ) : null}
+                </h2>
+                <p>{data.collection}</p>
+                <p className="text-lg">${data.price?.toFixed(2)}</p>
+              </div>
+              <div className="flex items-center">
+                <StarIcon className="fill-primary" size={15} />
+                <StarIcon className="fill-primary" size={15} />
+                <StarIcon className="fill-primary" size={15} />
+                <StarIcon className="fill-primary" size={15} />
+                <StarHalfIcon className="fill-primary" size={15} />
+                <Link href='#commentaries' className="text-sm ml-2 underline">8 reviews</Link>
+              </div>
+              <p className="text-muted-foreground">{data.description}</p>
+              <div className="space-y-5">
+                <p>Size</p>
+                <Sizes
+                  reference={data.id}
+                  price={data.price}
+                  name={data.name}
+                  sizes={data.sizes as unknown as StockType[]}
+                />
+              </div>
+              <div className="flex gap-2 flex-grow-0">
+                {data.tags
+                  ? data.tags?.split(",").map((item, index) => (
+                      <p
+                        key={index}
+                        className="bg-muted py-2 px-3 rounded-full cursor-pointer hover:shadow-md duration-300 text-sm"
+                      >
+                        {item}
+                      </p>
+                    ))
+                  : null}
+              </div>
+              <div className="flex items-end">
                 <p
-                  className="text-blue-600 cursor-pointer"
-                  onClick={() => setDescription(!description)}
+                  className={`text-muted-foreground ${
+                    description ? null : "line-clamp-3"
+                  }`}
                 >
-                  plus
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est
+                  pariatur similique deserunt culpa ad veniam! Vero recusandae
+                  sint magnam aliquid officia voluptatum, reiciendis rerum
+                  fugiat quis sapiente distinctio harum atque dolores architecto
+                  excepturi cumque laboriosam numquam corrupti animi quos
+                  eveniet?
                 </p>
-              )}
+                {description ? null : (
+                  <p
+                    className="text-blue-600 cursor-pointer"
+                    onClick={() => setDescription(!description)}
+                  >
+                    plus
+                  </p>
+                )}
+              </div>
+              <div>
+                <AccordionInfo />
+              </div>
             </div>
-
-            <div>
-              <AccordionInfo />
-            </div>
-          </div>
-        </section>
+          </section>
+          <Commentaries />
+        </>
       ) : (
         <section className="h-[100dvh] grid place-content-center place-items-center">
           No product found

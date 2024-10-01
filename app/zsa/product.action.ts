@@ -222,3 +222,26 @@ export const getMenProducts = action.handler(async () => {
     throw new Error("Error");
   }
 });
+
+
+export const getWomenProducts = action.handler(async () => {
+  try {
+    const womenProducts = await db.product.findMany({
+      where: {
+        gender: "women",
+        is_on_sale: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        collection: true,
+        createdAt: true,
+      },
+    });
+    return womenProducts || [];
+  } catch (err) {
+    console.error(err);
+    throw new Error("Error");
+  }
+});

@@ -1,12 +1,3 @@
-import React from "react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
 import { FootprintsIcon } from "lucide-react";
 import Link from "next/link";
 import Search from "./Search";
@@ -26,7 +17,7 @@ export default function DesktopNavigation() {
       </Link>
       <div className="place-self-center">
         <Link href={"/men"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Men</Link>
-        <Link href={"/men"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Women</Link>
+        <Link href={"/women"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Women</Link>
         <Link href={"/men"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Collection</Link>
         <Link href={"/men"} className="px-4 py-2 rounded-xl mx-1 hover:bg-muted duration-300">Support</Link>
       </div>

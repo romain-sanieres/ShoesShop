@@ -1,6 +1,4 @@
-
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react'
 
 type ProductProps = {
@@ -41,7 +39,12 @@ export default function Product({
           <p className="text-muted-foreground">${price?.toFixed(2)}</p>
         </div>
         <div className="self-end">
-          <p className='text-sm'>{collection}</p>
+          <Link
+            href={"/"}
+            className="text-muted-foreground text-sm hover:underline"
+          >
+            <p className="text-sm">{collection}</p>
+          </Link>
         </div>
       </div>
     </Link>

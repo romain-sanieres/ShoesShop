@@ -4,9 +4,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+*{
+  scroll-behavior: smooth;
+}
 body {
   font-family: "Lato", "Arial", sans-serif;
+ 
 }
 
 h2 {

@@ -14,7 +14,7 @@ export default function Hero() {
           perspiciatis!
         </p>
         <div className="flex justify-center gap-2 mt-10 max-md:flex-col">
-          <Link href={"/"}>
+          <Link href={"/women"}>
             <Button size={"lg"} className="w-44">
               Shop Women
             </Button>

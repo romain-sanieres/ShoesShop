@@ -62,7 +62,7 @@ export default function CartProduct({id, name, size, quantity, price }: CartProd
             onClick={() => mutateAdd({ productId: id, size: size })}
           />
         </div>
-        <p className="text-sm">${(price * quantity).toFixed(2)}</p>
+        <p className="text-sm">${price.toFixed(2)}</p>
       </div>
     </div>
   );
