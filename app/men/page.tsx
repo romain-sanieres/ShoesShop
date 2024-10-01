@@ -10,6 +10,7 @@ type ProductType = {
   price: number;
   collection?: string;
   createdAt: Date;
+  comment?: any;
 };
 
 export default function Men() {
@@ -37,6 +38,7 @@ export default function Men() {
               price={item.price}
               collection={item.collection || ""}
               date={item.createdAt}
+              comments={item.comment}
             />
           ))}
     </main>

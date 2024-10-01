@@ -112,7 +112,7 @@ export const getProductAction = authedAction
         where: {
           id: input.id,
         },
-        include: { sizes: true },
+        include: { sizes: true, Commentaries: true },
       });
       return product || null;
     } catch (err) {
@@ -208,15 +208,20 @@ export const getMenProducts = action.handler(async () => {
         gender: "men",
         is_on_sale: true,
       },
-      select: {
-        id: true,
-        name: true,
-        price: true,
-        collection: true,
-        createdAt: true,
+      include: {
+        Commentaries: true,
       },
     });
-    return menProducts || [];
+    return (
+      menProducts.map((product) => ({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        collection: product.collection,
+        createdAt: product.createdAt,
+        comment: product.Commentaries,
+      })) || []
+    );
   } catch (err) {
     console.error(err);
     throw new Error("Error");
@@ -268,6 +273,64 @@ export const getComments = action
         },
       });
       return comments || [];
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error");
+    }
+  });
+
+
+  export const createReviewAction = authedAction
+    .input(
+      z.object({
+        id: z.string(),
+        title: z.string(),
+        name: z.string(),
+        rating: z.number(),
+        comment: z.string(),
+        userId: z.string(),
+      })
+    )
+    .handler(async ({ input }) => {
+      try {
+        const review = await db.commentary.create({
+          data: {
+            title: input.title,
+            name: input.name,
+            rating: input.rating,
+            comment: input.comment,
+            productId: input.id,
+            userId: input.userId,
+          },
+        });
+        return review || null;
+      } catch (err) {
+        console.error(err);
+        throw new Error("Error");
+      }
+    });
+
+export const getReviews = action
+  .input(z.object({ id: z.string() }))
+  .handler(async ({ input }) => {
+    try {
+      const reviews = await db.commentary.findMany({
+        where: {
+          productId: input.id,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          id: true,
+          name: true,
+          title: true,
+          comment: true,
+          rating: true,
+          createdAt: true,
+        },
+      });
+      return reviews || [];
     } catch (err) {
       console.error(err);
       throw new Error("Error");

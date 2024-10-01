@@ -1,6 +1,6 @@
 
+import Average from '@/app/product/_components/Average';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import React from 'react'
 
 type ProductProps = {
@@ -8,7 +8,8 @@ type ProductProps = {
   name: string;
   price: number;
   collection: string;
-  date : Date;
+  date: Date;
+  comments: any;
 };
 
 export default function Product({
@@ -17,6 +18,7 @@ export default function Product({
   price,
   collection,
   date,
+  comments
 }: ProductProps) {
   const isRecent = (date: Date) => {
     const sevenDaysAgo = new Date();
@@ -39,9 +41,11 @@ export default function Product({
         <div>
           <p className="text-lg font-semibold">{name}</p>
           <p className="text-muted-foreground">${price?.toFixed(2)}</p>
+          <Average comments={comments} page={'products'} />
+
         </div>
         <div className="self-end">
-          <p className='text-sm'>{collection}</p>
+          <p className="text-sm">{collection}</p>
         </div>
       </div>
     </Link>

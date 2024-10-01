@@ -4,11 +4,10 @@ import Sizes from "@/app/account/(vendor)/products/_components/Sizes";
 import { getProductAction } from "@/app/zsa/product.action";
 import { StockType } from "@/types";
 import { useQuery } from "@tanstack/react-query";
-import { StarHalfIcon, StarIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import Commentaries from "../_components/Commentaries";
-import Link from "next/link";
+import Average from "../_components/Average";
 
 export default function ProductId() {
   const [description, setDescription] = useState(false);
@@ -55,14 +54,9 @@ export default function ProductId() {
                 <p>{data.collection}</p>
                 <p className="text-lg">${data.price?.toFixed(2)}</p>
               </div>
-              <div className="flex items-center">
-                <StarIcon className="fill-primary" size={15} />
-                <StarIcon className="fill-primary" size={15} />
-                <StarIcon className="fill-primary" size={15} />
-                <StarIcon className="fill-primary" size={15} />
-                <StarHalfIcon className="fill-primary" size={15} />
-                <Link href='#commentaries' className="text-sm ml-2 underline">8 reviews</Link>
-              </div>
+              {data.Commentaries && (
+                <Average comments={data?.Commentaries} page={"product"} />
+              )}
               <p className="text-muted-foreground">{data.description}</p>
               <div className="space-y-5">
                 <p>Size</p>

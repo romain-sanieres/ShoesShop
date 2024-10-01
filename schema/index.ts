@@ -24,3 +24,11 @@ export const ProductFormSchema = z.object({
   tags: z.string().optional(),
   sku: z.string().min(1),
 });
+
+
+export const CommmenFormSchema = z.object({
+  name : z.string().min(2),
+  title: z.string().min(2),
+  comment: z.string().min(2),
+  rating: z.number().min(.5),
+});
