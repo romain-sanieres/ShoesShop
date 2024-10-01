@@ -29,6 +29,7 @@ export default function ProductId() {
 
   if (isError) return <></>;
   if (isLoading) return <main className="min-h-[100dvh]"></main>;
+
   return (
     <main className="min-h-[100dvh]">
       {data ? (

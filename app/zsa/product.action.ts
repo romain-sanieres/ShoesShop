@@ -245,3 +245,31 @@ export const getWomenProducts = action.handler(async () => {
     throw new Error("Error");
   }
 });
+
+
+export const getComments = action
+  .input(z.object({ id: z.string() }))
+  .handler(async ({ input }) => {
+    try {
+      const comments = await db.commentary.findMany({
+        where: {
+          productId: input.id,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        select: {
+          id: true,
+          name: true,
+          title: true,
+          comment: true,
+          rating: true,
+          createdAt: true,
+        },
+      });
+      return comments || [];
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error");
+    }
+  });

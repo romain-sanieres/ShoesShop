@@ -23,15 +23,16 @@ model User {
   sessions       Session[]
   vendor_account Vendor[]        @relation("UserVendors")
   cart           CartItem[]
+  Commentary     Commentary[]
 }
 
 model CartItem {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   productId String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
   quantity  Int
   size      String
-  User      User?   @relation(fields: [userId], references: [id])
+  User      User?    @relation(fields: [userId], references: [id])
   userId    String?
   createdAt DateTime @default(now())
 }
@@ -49,24 +50,39 @@ model Vendor {
 }
 
 model Product {
-  id          String        @id @default(cuid())
-  name        String
-  description String
-  price       Float
-  collection  String?
-  tags        String?
-  gender      String
-  is_on_sale  Boolean       @default(false)
-  sale_price  Float?
-  limit       Int           @default(5)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  vendorId    String?
-  sku         String        @unique
-  Vendor      Vendor?       @relation(fields: [vendorId], references: [id])
-  sizes       ProductSize[]
-  reviews     Review[]
-  CartItem    CartItem[]
+  id           String        @id @default(cuid())
+  name         String
+  description  String
+  price        Float
+  collection   String?
+  tags         String?
+  gender       String
+  is_on_sale   Boolean       @default(false)
+  sale_price   Float?
+  limit        Int           @default(5)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  vendorId     String?
+  sku          String        @unique
+  Vendor       Vendor?       @relation(fields: [vendorId], references: [id])
+  sizes        ProductSize[]
+  reviews      Review[]
+  CartItem     CartItem[]
+  Commentaries Commentary[]
+}
+
+model Commentary {
+  id        String   @id @default(cuid())
+  name      String
+  title     String
+  comment   String
+  productId String
+  rating    Float?
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 model ProductSize {
