@@ -26,7 +26,7 @@ export default function Men() {
   if (isLoading) return <main className="min-h-[100dvh]"></main>;
 
   return (
-    <main className="min-h-[100dvh] grid grid-cols-4 mt-10 gap-5">
+    <main className="min-h-[100dvh] grid max-md:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-10 gap-5">
       {Array.isArray(data) &&
         data
           .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())

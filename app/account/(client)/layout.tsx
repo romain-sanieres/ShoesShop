@@ -8,8 +8,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
   const [user] = await getUserAction();
   if (user && user.userType === "CLIENT")
     return (
-      <main className="flex gap-x-5 min-h-[100dvh]">
-        <aside className="flex flex-col gap-y-10 w-60">
+      <main className="flex gap-x-5 min-h-[100dvh] ">
+        <aside className="flex flex-col gap-y-10 w-60 max-md:hidden">
           <p className="text-xl">Your Account</p>
           <div className="divide-y flex flex-col gap-y-5">
             <ClientLink />
