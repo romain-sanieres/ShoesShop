@@ -34,7 +34,7 @@ export default function ProductList({ search }: { search: string }) {
           <TableHeader className="w-full">
             <TableRow className="h-fit">
               <TableHead>Name</TableHead>
-              <TableHead>Price $</TableHead>
+              <TableHead className="max-md:hidden">Price $</TableHead>
               <TableHead className="text-right"></TableHead>
               <TableHead className="text-right">On sell</TableHead>
             </TableRow>
@@ -57,7 +57,7 @@ export default function ProductList({ search }: { search: string }) {
                       {item.name}
                     </Link>
                   </TableCell>
-                  <TableCell>{item.price.toFixed(2)}</TableCell>
+                  <TableCell className="max-md:hidden">{item.price.toFixed(2)}</TableCell>
                   <TableCell className="text-right space-x-4">
                     <Link href={`/account/products/stocks/${item.id}`}>
                       <Button variant={"outline"}>Stock</Button>

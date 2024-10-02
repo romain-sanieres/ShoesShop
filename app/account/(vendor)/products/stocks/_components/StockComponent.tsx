@@ -48,7 +48,7 @@ export default function StockComponent({ session }: { session: string }) {
     return (
       <main className="space-y-10">
         <div className="space-y-5">
-          <div className="flex justify-between">
+          <div className="flex max-md:flex-col justify-between">
             <div>
               <h2 className="text-3xl font-bold ">{data.name}</h2>
               <p className="text-xl">${data.price}</p>
@@ -61,9 +61,8 @@ export default function StockComponent({ session }: { session: string }) {
               <p className="text-xl">Stock Limit : {data.limit}</p>
             </div>
           </div>
-          <p className="text-muted-foreground">{data.description}</p>
         </div>
-        <div className="grid grid-cols-8 gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-6 xl:grid-cols-8 gap-5">
           {data.sizes
             .sort((a, b) => Number(a.size) - Number(b.size))
             .map((item) => (

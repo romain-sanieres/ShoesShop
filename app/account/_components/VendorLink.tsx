@@ -9,10 +9,6 @@ const pages = [
     name: "dashboard",
   },
   {
-    link: "stocks",
-    name: "stocks",
-  },
-  {
     link: "settings",
     name: "settings",
   },

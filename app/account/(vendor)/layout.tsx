@@ -10,7 +10,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
   if (user && user.userType === "VENDOR")
     return (
       <main className="flex gap-x-5 min-h-[100dvh]">
-        <aside className="flex flex-col gap-y-10 w-60">
+        <aside className="flex-col gap-y-10 w-60 hidden md:flex">
           <p className="text-xl">Your Account</p>
           <div className="divide-y flex flex-col gap-y-5">
             <VendorLink vendor={user.vendor_account.length} />

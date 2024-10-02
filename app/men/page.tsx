@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { getMenProducts } from "../zsa/product.action";
-import Product from "./_components/Product";
+import Product from "../../components/Product";
 
 type ProductType = {
   id: string;

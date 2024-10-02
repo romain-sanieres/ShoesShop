@@ -32,7 +32,7 @@ export default async function Slide({ name, price, description, id, image }: Sli
         <div className="flex flex-col gap-y-2">
           <div className="flex flex-col">
             <p className="h-fit font-semibold">{name}</p>
-            <p>{price}$</p>
+            <p>${price?.toFixed(2)}</p>
           </div>
           <p className="h-fit text-muted-foreground max-w-[16rem]">
             {description}
