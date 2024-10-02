@@ -13,8 +13,9 @@ type SlideType = {
   description: string;
 };
 
-export default async function Slide({ name, price, description, id, image }: SlideType) {
+export default async function Slide({ name, price, description, id, image, }: SlideType) {
   const rev = await getReviews({id : id});
+
   
   return (
     <CarouselItem className="md:basis-1/2 lg:basis-1/5  rounded-lg p-0 flex overflow-hidden">
@@ -34,13 +35,9 @@ export default async function Slide({ name, price, description, id, image }: Sli
             <p className="h-fit font-semibold">{name}</p>
             <p>${price?.toFixed(2)}</p>
           </div>
-          <p className="h-fit text-muted-foreground max-w-[16rem]">
-            {description}
-          </p>
         </div>
-        {rev[0] && rev[0]?.length > 0 ? (
-          <Average comments={rev[0]} page={"home"}/>
-
+        {rev[0]  ? (
+          <Average comments={rev[0]} page={"home"} />
         ) : (
           <div className="h-5"></div>
         )}

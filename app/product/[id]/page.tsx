@@ -55,7 +55,6 @@ export default function ProductId() {
                 <p>{data.collection}</p>
                 <p className="text-lg">${data.price?.toFixed(2)}</p>
               </div>
-              <p className="text-muted-foreground">{data.description}</p>
               <div className="space-y-5">
                 <p>Size</p>
                 <Sizes
@@ -83,12 +82,7 @@ export default function ProductId() {
                     description ? null : "line-clamp-3"
                   }`}
                 >
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est
-                  pariatur similique deserunt culpa ad veniam! Vero recusandae
-                  sint magnam aliquid officia voluptatum, reiciendis rerum
-                  fugiat quis sapiente distinctio harum atque dolores architecto
-                  excepturi cumque laboriosam numquam corrupti animi quos
-                  eveniet?
+                  {data.description}
                 </p>
                 {description ? null : (
                   <p
