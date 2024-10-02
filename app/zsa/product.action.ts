@@ -48,6 +48,7 @@ export const createProductAction = companyAction
       collection: z.string(),
       tags: z.string(),
       sku: z.string(),
+      images : z.array(z.string()),
     })
   )
   .handler(async ({ input }) => {
@@ -66,6 +67,7 @@ export const createProductAction = companyAction
           tags: input.tags,
           sku: input.sku,
           vendorId: company.id,
+          images: input.images,
         },
       });
       await createProductSizes(product.id);
@@ -220,6 +222,8 @@ export const getMenProducts = action.handler(async () => {
         collection: product.collection,
         createdAt: product.createdAt,
         comment: product.Commentaries,
+        images : product.images
+
       })) || []
     );
   } catch (err) {
@@ -248,6 +252,7 @@ export const getWomenProducts = action.handler(async () => {
         collection: product.collection,
         createdAt: product.createdAt,
         comment: product.Commentaries,
+        images : product.images
       })) || []
     );
   } catch (err) {

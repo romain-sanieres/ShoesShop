@@ -23,6 +23,7 @@ export const ProductFormSchema = z.object({
   gender: z.enum(["men", "women", "all"]).optional(),
   tags: z.string().optional(),
   sku: z.string().min(1),
+  images: z.array(z.string().min(1)).min(1, { message: "At least one image is required." }),
 });
 
 

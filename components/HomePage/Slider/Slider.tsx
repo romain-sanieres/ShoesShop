@@ -33,7 +33,7 @@ export default async function Slider({ title, subtitle }: SliderType) {
                 name={item?.name}
                 price={item?.price}
                 description={item?.description}
-                image={index + 1}
+                image={item?.images[0]}
               />
             ))}
         </CarouselContent>

@@ -69,6 +69,7 @@ model Product {
   reviews      Review[]
   CartItem     CartItem[]
   Commentaries Commentary[]
+  images       String[]
 }
 
 model Commentary {

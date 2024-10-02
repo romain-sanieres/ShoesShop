@@ -7,8 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import Commentaries from "../_components/Commentaries";
-import Average from "../_components/Average";
-import { Skeleton } from "@/components/ui/skeleton";
+import Image from "next/image";
 export default function ProductId() {
   const [description, setDescription] = useState(false);
   const { id } = useParams();
@@ -36,12 +35,17 @@ export default function ProductId() {
         <>
           <section className="max-lg:flex flex-col lg:grid lg:grid-cols-12 gap-x-8">
             <div className="w-full md:col-span-9">
-              <div className="md:grid md:grid-cols-2 gap-3 flex flex-col">
-                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
-                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
-                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
-                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
-                <div className="h-96 w-full bg-gray-100 shadow-md rounded"></div>
+              <div className="md:grid md:grid-cols-2 gap-5 flex flex-col">
+                {data.images?.map((item, index) => (
+                  <Image
+                    key={index}
+                    src={item}
+                    width={400}
+                    height={400}
+                    alt={item}
+                    className="w-full h-auto object-center rounded-xl shadow-md"
+                  />
+                ))}
               </div>
             </div>
             <div className="w-full md:col-span-3 p-2 space-y-5 max-md:mt-10">
@@ -63,6 +67,7 @@ export default function ProductId() {
                   name={data.name}
                   sizes={data.sizes as unknown as StockType[]}
                 />
+
               </div>
               <div className="flex gap-2 flex-grow-0">
                 {data.tags
@@ -84,7 +89,7 @@ export default function ProductId() {
                 >
                   {data.description}
                 </p>
-                {description ? null : (
+                {description || data?.description?.length <= 100 ? null : (
                   <p
                     className="text-blue-600 cursor-pointer"
                     onClick={() => setDescription(!description)}

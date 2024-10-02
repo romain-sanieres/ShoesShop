@@ -11,6 +11,7 @@ type ProductType = {
   collection?: string;
   createdAt: Date;
   comment?: any;
+  images: string[];
 };
 
 export default function Women() {
@@ -56,6 +57,7 @@ export default function Women() {
                 price={item.price}
                 collection={item.collection || ""}
                 date={item.createdAt}
+                image={item?.images[0]}
                 comments={item.comment}
               />
             ))}

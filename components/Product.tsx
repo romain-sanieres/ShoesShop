@@ -1,7 +1,7 @@
-
-import Average from '@/app/product/_components/Average';
-import Link from 'next/link';
-import React from 'react'
+import Average from "@/app/product/_components/Average";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 type ProductProps = {
   id: string;
@@ -10,6 +10,7 @@ type ProductProps = {
   collection: string;
   date: Date;
   comments: any;
+  image: string;
 };
 
 export default function Product({
@@ -18,7 +19,8 @@ export default function Product({
   price,
   collection,
   date,
-  comments
+  comments,
+  image,
 }: ProductProps) {
   const isRecent = (date: Date) => {
     const sevenDaysAgo = new Date();
@@ -30,22 +32,18 @@ export default function Product({
       href={`/product/${id}`}
       className="rounded-xl shadow hover:shadow-md duration-200 flex flex-col justify-between overflow-hidden h-fit"
     >
-      <div className="bg-muted h-96">
-        {isRecent(new Date(date)) ? (
-          <span className="text-sm text-destructive flex justify-end p-2">
-            (new)
-          </span>
-        ) : null}
-      </div>
-      <div className="flex justify-between px-2 py-4">
-        <div>
-          <p className="text-lg font-semibold">{name}</p>
+      <Image src={image} width={500} height={500} alt="" className="h-96" />
+      <div className="flex flex-col gap-4 justify-between p-4">
+        <div className="flex w-full items-center justify-between">
+          <div>
+            <p className="text-lg font-semibold">{name}</p>
+            <Average comments={comments} page={"products"} />
+          </div>
           <p className="text-muted-foreground">${price?.toFixed(2)}</p>
-          <Average comments={comments} page={'products'} />
-
         </div>
-        <div className="self-end">
+        <div className="flex items-center justify-between">
           <p className="text-sm">{collection}</p>
+          <p>{isRecent(date) ? <p className="text-sm text-destructive">(new)</p> : null}</p>
         </div>
       </div>
     </Link>

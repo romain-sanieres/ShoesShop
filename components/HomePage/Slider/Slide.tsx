@@ -4,12 +4,13 @@ import { CarouselItem } from "@/components/ui/carousel";
 import Image from "next/image";
 import { getReviews } from "@/app/zsa/product.action";
 import Average from "@/app/product/_components/Average";
+import { Item } from "@radix-ui/react-accordion";
 
 type SlideType = {
   id : string;
   name: string;
   price: number;
-  image: number;
+  image: string;
   description: string;
 };
 
@@ -24,7 +25,7 @@ export default async function Slide({ name, price, description, id, image, }: Sl
         className="flex flex-col w-full justify-between gap-y-4"
       >
         <Image
-          src={`/images/slider/${image}.webp`}
+          src={image}
           alt=""
           width={500}
           height={500}

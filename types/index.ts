@@ -20,6 +20,7 @@ export type ProductType = {
   gender?: string;
   limit?: number;
   sku: string;
+  images: string[];
 };
 
 export type StockType = {
