@@ -37,6 +37,9 @@ export default function ProductList({ search }: { search: string }) {
         </TableRow>
       </TableHeader>
       <TableBody>
+        <TableRow>
+          <TableCell>Loading...</TableCell>
+        </TableRow>
       </TableBody>
     </Table>
   );
