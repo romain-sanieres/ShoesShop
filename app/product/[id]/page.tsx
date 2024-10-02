@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import Commentaries from "../_components/Commentaries";
 import Average from "../_components/Average";
-
+import { Skeleton } from "@/components/ui/skeleton";
 export default function ProductId() {
   const [description, setDescription] = useState(false);
   const { id } = useParams();
@@ -26,8 +26,9 @@ export default function ProductId() {
     return date > sevenDaysAgo;
   };
 
-  if (isError) return <></>;
   if (isLoading) return <main className="min-h-[100dvh]"></main>;
+  if (isError) return <></>;
+
 
   return (
     <main className="min-h-[100dvh]">
@@ -54,9 +55,6 @@ export default function ProductId() {
                 <p>{data.collection}</p>
                 <p className="text-lg">${data.price?.toFixed(2)}</p>
               </div>
-              {data.Commentaries && (
-                <Average comments={data?.Commentaries} page={"product"} />
-              )}
               <p className="text-muted-foreground">{data.description}</p>
               <div className="space-y-5">
                 <p>Size</p>

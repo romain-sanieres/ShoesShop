@@ -236,15 +236,20 @@ export const getWomenProducts = action.handler(async () => {
         gender: "women",
         is_on_sale: true,
       },
-      select: {
-        id: true,
-        name: true,
-        price: true,
-        collection: true,
-        createdAt: true,
+      include: {
+        Commentaries: true,
       },
     });
-    return womenProducts || [];
+    return (
+      womenProducts.map((product) => ({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        collection: product.collection,
+        createdAt: product.createdAt,
+        comment: product.Commentaries,
+      })) || []
+    );
   } catch (err) {
     console.error(err);
     throw new Error("Error");
