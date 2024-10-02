@@ -41,7 +41,7 @@ export default function CartProduct({id, name, size, quantity, price, image }: C
 
   return (
     <div className="flex items-end justify-between gap-x-4 select-none shadow-md p-5 rounded-lg">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-4">
         <Image src={image} width={100} height={100} alt="" className="rounded-lg zize-20" />
         <div className="select-none">
           <Link href={`/product/${id}`} className="text-md font-semibold">{name}</Link>
@@ -64,7 +64,7 @@ export default function CartProduct({id, name, size, quantity, price, image }: C
             onClick={() => mutateAdd({ productId: id, size: size })}
           />
         </div>
-        <p className="text-sm">${price.toFixed(2)}</p>
+        <p className="text-sm"><span>Unite</span>${price.toFixed(2)}</p>
       </div>
     </div>
   );

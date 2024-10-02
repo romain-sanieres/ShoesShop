@@ -9,9 +9,9 @@ export default async function Login() {
     <div className="max-md:flex max-md:justify-center md:grid md:place-items-center h-[100dvh]">
       <div className="p-8 w-full max-w-md">
         <p className="text-5xl font-bold flex justify-center mb-10 items-center ">
-          Sh
+          Step
           <FootprintsIcon size={40} />
-          es
+          p
         </p>
         <Form />
         <ProvidersButtons />
