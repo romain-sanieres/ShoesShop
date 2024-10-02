@@ -67,7 +67,6 @@ export default function ProductId() {
                   name={data.name}
                   sizes={data.sizes as unknown as StockType[]}
                 />
-
               </div>
               <div className="flex gap-2 flex-grow-0">
                 {data.tags
@@ -81,7 +80,7 @@ export default function ProductId() {
                     ))
                   : null}
               </div>
-              <div className="flex items-end">
+              <div className="flex flex-col items-end">
                 <p
                   className={`text-muted-foreground ${
                     description ? null : "line-clamp-3"
@@ -91,10 +90,10 @@ export default function ProductId() {
                 </p>
                 {description || data?.description?.length <= 100 ? null : (
                   <p
-                    className="text-blue-600 cursor-pointer"
+                    className="cursor-pointer"
                     onClick={() => setDescription(!description)}
                   >
-                    plus
+                    ...more
                   </p>
                 )}
               </div>

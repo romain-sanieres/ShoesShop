@@ -3,6 +3,7 @@ import { addQuantityAction, subtractQuantityAction } from "@/app/zsa/cart.action
 import { useServerActionMutation } from "@/lib/hooks/server-action-hooks";
 import { useQueryClient } from "@tanstack/react-query";
 import { MinusIcon, PlusIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 type CartProductProps = {
@@ -11,9 +12,10 @@ type CartProductProps = {
   size: string;
   quantity: number;
   price: number;
+  image: string;
 };
 
-export default function CartProduct({id, name, size, quantity, price }: CartProductProps) {
+export default function CartProduct({id, name, size, quantity, price, image }: CartProductProps) {
   const queryClient = useQueryClient();
   const { mutate: mutateAdd } = useServerActionMutation(addQuantityAction, {
     onSuccess: (data) => {
@@ -40,7 +42,7 @@ export default function CartProduct({id, name, size, quantity, price }: CartProd
   return (
     <div className="flex items-end justify-between gap-x-4 select-none shadow-md p-5 rounded-lg">
       <div className="flex items-center gap-2">
-        <div className="size-20 bg-muted rounded-lg"></div>
+        <Image src={image} width={100} height={100} alt="" className="rounded-lg zize-20" />
         <div className="select-none">
           <Link href={`/product/${id}`} className="text-md font-semibold">{name}</Link>
           <p className="text-sm">

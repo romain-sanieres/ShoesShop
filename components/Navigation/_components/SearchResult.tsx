@@ -2,6 +2,7 @@ import Average from "@/app/product/_components/Average";
 import { getSearchedProducts } from "@/app/zsa/product.action";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -55,7 +56,7 @@ export default function SearchResult({
             key={index}
             className="border flex items-center justify-between rounded-lg shadow-md hover:shadow-lg transition-shadow"
           >
-            <div className="h-40 min-w-60 object-cover rounded-lg bg-muted"></div>
+            <Image src={item.images[0]} width={500} height={500} alt={item.name} className="h-40 min-w-60 object-cover" />
             <div className="flex flex-col w-full px-4">
               <h3 className="text-lg font-semibold mt-2">{item.name}</h3>
               <p className="font-bold mt-2 text-muted-foreground">

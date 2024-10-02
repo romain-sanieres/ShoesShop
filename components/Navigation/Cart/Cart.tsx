@@ -73,6 +73,7 @@ export default function Cart() {
                     size={item.size}
                     quantity={item.quantity}
                     price={item.product.price}
+                    image={item.product.images[0]}
                   />
                 ))}
             </>
