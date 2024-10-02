@@ -25,7 +25,21 @@ export default function ProductList({ search }: { search: string }) {
   });
 
   if (isError) return <></>;
-  if (isLoading) return <></>;
+  if (isLoading) return (
+    <Table className="w-full">
+      <TableCaption>A list of your products</TableCaption>
+      <TableHeader className="w-full">
+        <TableRow className="h-fit">
+          <TableHead>Name</TableHead>
+          <TableHead className="max-md:hidden">Price $</TableHead>
+          <TableHead className="text-right"></TableHead>
+          <TableHead className="text-right">On sell</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+      </TableBody>
+    </Table>
+  );
   if (Array.isArray(data))
     return (
       <section className="mt-5">
