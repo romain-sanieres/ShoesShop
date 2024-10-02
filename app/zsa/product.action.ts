@@ -336,3 +336,18 @@ export const getReviews = action
       throw new Error("Error");
     }
   });
+
+
+  export const getSearchedProducts = action.handler(async () => {
+    try {
+      const allProducts = await db.product.findMany({
+        include: {
+          Commentaries: true,
+        },
+      });
+      return allProducts || [];
+    } catch (err) {
+      console.error(err);
+      throw new Error("Error");
+    }
+  });

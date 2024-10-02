@@ -28,9 +28,9 @@ export default function Product({
   return (
     <Link
       href={`/product/${id}`}
-      className="rounded-xl shadow hover:shadow-md duration-200 h-96 flex flex-col justify-between overflow-hidden"
+      className="rounded-xl shadow hover:shadow-md duration-200 flex flex-col justify-between overflow-hidden h-fit"
     >
-      <div className="h-full bg-muted">
+      <div className="bg-muted h-96">
         {isRecent(new Date(date)) ? (
           <span className="text-sm text-destructive flex justify-end p-2">
             (new)

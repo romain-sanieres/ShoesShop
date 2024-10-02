@@ -18,9 +18,9 @@ export default function Average({
 }) {
   const calculateAverageRating = (comments: CommentPropsType[]) => {
     const totalRatings = comments
-      .filter((comment) => comment.rating !== null)
+      ?.filter((comment) => comment.rating !== null)
       .reduce((sum, comment) => sum + (comment.rating || 0), 0);
-    const numberOfRatings = comments.filter(
+    const numberOfRatings = comments?.filter(
       (comment) => comment.rating !== null
     ).length;
     return numberOfRatings > 0 ? totalRatings / numberOfRatings : 0;
@@ -76,16 +76,16 @@ export default function Average({
     <div className="flex gap-x-2 items-center">
       {renderStars(averageRating)}
       <p className="text-sm font-semibold flex gap-x-2">
-        {page === "home" || "product" ? null : averageRating.toFixed(1)}
+        {page === "home" || "product" ? null : averageRating?.toFixed(1)}
         {page === "home" || "products"  ? (
-          <span className="text-muted-foreground">({comments.length})</span>
+          <span className="text-muted-foreground">({comments?.length})</span>
         ) : page === "product" ? (
           <Link href={"#commentaries"} className="underline">
-            {comments.length} review{comments.length > 1 ? "s" : null}
+            {comments?.length} review{comments?.length > 1 ? "s" : null}
           </Link>
         ) : (
           <span className="text-muted-foreground">
-            Based on {comments.length} review{comments.length > 1 ? "s" : null}
+            Based on {comments?.length} review{comments?.length > 1 ? "s" : null}
           </span>
         )}
       </p>

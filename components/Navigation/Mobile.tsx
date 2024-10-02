@@ -49,7 +49,7 @@ export default function MobileNavigation() {
       <Link href={"/"} className="font-semibold text-xl flex items-center">
         Step
         <FootprintsIcon />
-        up
+        p
       </Link>
       <Link
         href={
